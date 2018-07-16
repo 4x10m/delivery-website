@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<title></title>
+	<meta charset="utf8">
+</head>
+<body>
+	<div id="banner">
+	<div id="cardview">
+			<div id="header">
+			<div id="header-helper">
+			<img id="logo" src="logo.PNG">
+
+			<div id="navigation">
+				<a>A propos</a>
+				<a>Connexion</a>
+			</div>
+			</div>
+			</div>
+
+			<h1>Commander</h1>
+
+			<h2>Type de prestation</h2>
+
+			<input type="radio" id="choice1" name="choice" value="Livraison d'objets">
+			<label for="choice1">Livraison d'objets</label>
+
+			<br>
+			
+			<input type="radio" id="choice2" name="choice" value="Faire une course">
+			<label for="choice2">Faire une course</label>
+
+			<br>
+
+			<input type="radio" id="choice3" name="choice" value="Retour de soirée">
+			<label for="choice3">Retour de soirée</label>
+
+			<br>
+
+			<input type="radio" id="choice4" name="choice" value="Personalisée">
+			<label for="choice4">Personalisée</label>
+
+			<h2>Adresses</h2>
+
+			<input type="text" placeholder="Adresse de départ">
+			<input type="text" placeholder="Adresse d'arrivée">
+
+			<div id="map"></div>
+
+
+			<p>Distance</p>
+			<input type="text" placeholder="0">
+			<p>Altitude</p>
+			<input type="text" placeholder="0">
+			<p>Tarif</p>
+			<input type="text" placeholder="0">
+
+			<h2>Poids</h2>
+
+			<input type="radio" id="choice4" name="choice-weight" value="1">
+			<label for="choice4">0-1kg</label>
+
+			<input type="radio" id="choice4" name="choice-weight" value="2">
+			<label for="choice4">1-5kg</label>
+
+			<input type="radio" id="choice4" name="choice-weight" value="3">
+			<label for="choice4">5-15kg</label>
+
+			<input type="radio" id="choice4" name="choice-weight" value="4">
+			<label for="choice4">+15kg</label>
+
+			<br>
+
+			<label for="weight-cost">Tarif</label>
+	
+
+			<input type="text" name="weight-cost" placeholder="0">
+
+			<h2>Urgence</h2>
+
+			<input type="checkbox" name="Urgence">
+			<label for="Urgence">Urgence</label>
+
+			<div id="validate-container"><input id="validate" type="button" value="valider"></div>
+			
+		</div>
+
+
+	</div>
+
+
+    <script>
+// Initialize and add the map
+function initMap() {
+  // The location of Uluru
+  var uluru = {lat: -25.344, lng: 131.036};
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 4, center: uluru});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: uluru, map: map});
+}
+</script>
+
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?callback=initMap">
+    </script>
+
+</body>
+</html>
