@@ -28,86 +28,138 @@
 
 			<h1>Commander</h1>
 
-			<form name="order">
+			<form name="order-form">
 
 				<h2>Type de prestation</h2>
 
 				<p><strong>Choisir le type de prestation</strong></p>
 
-				<input type="radio" id="choice1" name="order-type-radio" value="Livraison d'objets">
+				<!-- Object Delivery-->
+
+				<input type="radio" id="choice1" name="order-type-radio" value="objectdelivery">
 				<label for="choice1">
 					<strong>
 						Livraison d'objets
 					</strong>
 
 					<br>
-				
+
 					<em>
 						Comprend la récupération d'un objet dans un endroit spécifique et l'acheminement de celui-ci vers un autre endroit.
 					</em>
 				</label>
 
-				<div class="hidden" id="object-delivery">hidden</div>
+				<div class="hidden" id="objectdelivery-order-container">
+					<!-- Adresses-->
+
+					<h3>Adresses</h3>
+
+					<input type="text" placeholder="Adresse de départ">
+					<input type="text" placeholder="Adresse d'arrivée">
+
+					<div id="map"></div>
+
+					<p>Distance</p>
+					<input type="text" placeholder="0">
+
+					<p>Altitude</p>
+					<input type="text" placeholder="0">
+
+					<p>Tarif</p>
+					<input type="text" placeholder="0">
+
+					<h3>Poids</h3>
+
+					<input type="radio" id="choice4" name="choice-weight" value="1">
+					<label for="choice4">0-1kg</label>
+
+					<input type="radio" id="choice4" name="choice-weight" value="2">
+					<label for="choice4">1-5kg</label>
+
+					<input type="radio" id="choice4" name="choice-weight" value="3">
+					<label for="choice4">5-15kg</label>
+
+					<input type="radio" id="choice4" name="choice-weight" value="4">
+					<label for="choice4">+15kg</label>
+
+					<br>
+
+					<label for="weight-cost">Tarif</label>
+					<input type="text" name="weight-cost" placeholder="0">
+
+					<h3>Urgence</h3>
+
+					<input type="checkbox" name="Urgence">
+					<label for="Urgence">Urgence</label>
+				</div>
 
 				<br>
 
-				<input type="radio" id="choice2" name="order-type-radio" value="Faire une course">
+				<!-- Course delivery -->
+
+				<input type="radio" id="choice2" name="order-type-radio" value="course">
 				<label for="choice2">Faire une course</label>
 
+				<div class="hidden" id="course-order-container">Faire une course</div>
+
 				<br>
 
-				<input type="radio" id="choice3" name="order-type-radio" value="Retour de soirée">
+				<input type="radio" id="choice3" name="order-type-radio" value="backathome">
 				<label for="choice3">Retour de soirée<br>
 				Un coursier vous rejoint sur le lieu de votre soirée en vélo pliant et vous raccompagne dans votre propre voiture après avoir déposer son vélo dans votre coffre.</label>
 
+				<div class="hidden" id="backathome-order-container">Retour de soirée</div>
+
 				<br>
 
-				<input type="radio" id="choice4" name="order-type-radio" value="Personalisée">
+				<input type="radio" id="choice4" name="order-type-radio" value="personalized">
 				<label for="choice4">Personalisée<br>
 				Pour toute demande personnalisée</label>
 
+				<div class="hidden" id="personalized-order-container">
+					<h2>Adresses</h2>
+
+					<input type="text" placeholder="Adresse de départ">
+					<input type="text" placeholder="Adresse d'arrivée">
+
+					<div id="map"></div>
+
+					<p>Distance</p>
+					<input type="text" placeholder="0">
+
+					<p>Altitude</p>
+					<input type="text" placeholder="0">
+
+					<p>Tarif</p>
+					<input type="text" placeholder="0">
+
+					<h2>Poids</h2>
+
+					<input type="radio" id="choice4" name="choice-weight" value="1">
+					<label for="choice4">0-1kg</label>
+
+					<input type="radio" id="choice4" name="choice-weight" value="2">
+					<label for="choice4">1-5kg</label>
+
+					<input type="radio" id="choice4" name="choice-weight" value="3">
+					<label for="choice4">5-15kg</label>
+
+					<input type="radio" id="choice4" name="choice-weight" value="4">
+					<label for="choice4">+15kg</label>
+
+					<br>
+
+					<label for="weight-cost">Tarif</label>
+					<input type="text" name="weight-cost" placeholder="0">
+
+					<h2>Urgence</h2>
+
+					<input type="checkbox" name="Urgence">
+					<label for="Urgence">Urgence</label>
+				</div>
+
 				<!-- Default choice -->
 				<input type="radio" id="order-type-default-choice" name="order-type-radio" value=""  style="display: none;" checked>
-
-				<h2>Adresses</h2>
-
-				<input type="text" placeholder="Adresse de départ">
-				<input type="text" placeholder="Adresse d'arrivée">
-
-				<div id="map"></div>
-
-				<p>Distance</p>
-				<input type="text" placeholder="0">
-
-				<p>Altitude</p>
-				<input type="text" placeholder="0">
-
-				<p>Tarif</p>
-				<input type="text" placeholder="0">
-
-				<h2>Poids</h2>
-
-				<input type="radio" id="choice4" name="choice-weight" value="1">
-				<label for="choice4">0-1kg</label>
-
-				<input type="radio" id="choice4" name="choice-weight" value="2">
-				<label for="choice4">1-5kg</label>
-
-				<input type="radio" id="choice4" name="choice-weight" value="3">
-				<label for="choice4">5-15kg</label>
-
-				<input type="radio" id="choice4" name="choice-weight" value="4">
-				<label for="choice4">+15kg</label>
-
-				<br>
-
-				<label for="weight-cost">Tarif</label>
-				<input type="text" name="weight-cost" placeholder="0">
-
-				<h2>Urgence</h2>
-
-				<input type="checkbox" name="Urgence">
-				<label for="Urgence">Urgence</label>
 
 				<div id="validate-container">
 					<input id="reset-button" type="reset" value="Remise à zéro">
@@ -207,15 +259,24 @@
 		function validatePerformanceType(radio) {
 			console.log(radio.value);
 
-			if (radio.value == "Livraison d'objets") {
-				document.getElementById('object-delivery').classList.remove("hidden");
-			} else {
-				document.getElementById('object-delivery').classList.add("hidden");
+			document.getElementById('objectdelivery-order-container').classList.add("hidden");
+			document.getElementById('course-order-container').classList.add("hidden");
+			document.getElementById('personalized-order-container').classList.add("hidden");
+			document.getElementById('backathome-order-container').classList.add("hidden");
+
+			if (radio.value == "objectdelivery") {
+				document.getElementById('objectdelivery-order-container').classList.remove("hidden");
+			} else if (radio.value == "course") {
+				document.getElementById('course-order-container').classList.remove("hidden");
+			} else if (radio.value == "personalized") {
+				document.getElementById('personalized-order-container').classList.remove("hidden");
+			} else if (radio.value == "backathome") {
+				document.getElementById('backathome-order-container').classList.remove("hidden");
 			}
 		}
 
-		var rad = document.forms['order'].elements['order-type-radio'];
-			for(var i = 0; i < rad.length; i++) {
+		var rad = document.forms['order-form'].elements['order-type-radio'];
+		for(var i = 0; i < rad.length; i++) {
 			rad[i].onchange = function() {
 				validatePerformanceType(this);
 			}
@@ -229,5 +290,6 @@
 			}
 		};
 	</script>
+
 </body>
 </html>
