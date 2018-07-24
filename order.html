@@ -186,23 +186,30 @@
 
 		map.on('click', onMapClick);
 
+		function validatePerformanceType(radio) {
+			console.log(radio.value);
 
-
-		var rad = document.forms['order'].elements['choice'];
-		var prev = null;
-		for(var i = 0; i < rad.length; i++) {
-		    rad[i].onchange = function() {
-		        console.log(this.value);
-
-		        if (this.value == "Livraison d'objets") {
-
-		        	document.getElementById('object-delivery').classList.remove("hidden");
-		        } else {
-		        	document.getElementById('object-delivery').classList.add("hidden");
-		        }
-		    };
+			if (radio.value == "Livraison d'objets") {
+				document.getElementById('object-delivery').classList.remove("hidden");
+			} else {
+				document.getElementById('object-delivery').classList.add("hidden");
+			}
 		}
 
+		var rad = document.forms['order'].elements['order-type-radio'];
+			for(var i = 0; i < rad.length; i++) {
+			rad[i].onchange = function() {
+				validatePerformanceType(this);
+			}
+		}
+
+		window.onload = function() {
+			for(var i = 0; i < rad.length; i++) {
+				if(rad[i].checked) {
+					validatePerformanceType(rad[i]);
+				}
+			}
+		};
 	</script>
 </body>
 </html>
