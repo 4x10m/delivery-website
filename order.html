@@ -35,88 +35,85 @@
 			<input type="radio" id="choice1" name="choice" value="Livraison d'objets">
 			<label for="choice1">Livraison d'objets</label>
 			<div class="hidden" id="object-delivery">hidden</div>
+				<br>
 
-			<br>
-			
-			<input type="radio" id="choice2" name="choice" value="Faire une course">
-			<label for="choice2">Faire une course</label>
+				<input type="radio" id="choice2" name="order-type-radio" value="Faire une course">
+				<label for="choice2">Faire une course</label>
 
-			<br>
+				<br>
 
-			<input type="radio" id="choice3" name="choice" value="Retour de soirée">
-			<label for="choice3">Retour de soirée</label>
+				<input type="radio" id="choice3" name="order-type-radio" value="Retour de soirée">
 
-			<br>
+				<br>
 
-			<input type="radio" id="choice4" name="choice" value="Personalisée">
-			<label for="choice4">Personalisée</label>
-
-			<h2>Adresses</h2>
-
-			<input type="text" placeholder="Adresse de départ">
-			<input type="text" placeholder="Adresse d'arrivée">
-
-			<div id="map"></div>
+				<input type="radio" id="choice4" name="order-type-radio" value="Personalisée">
 
 
-			<p>Distance</p>
-			<input type="text" placeholder="0">
-			<p>Altitude</p>
-			<input type="text" placeholder="0">
-			<p>Tarif</p>
-			<input type="text" placeholder="0">
+				<h2>Adresses</h2>
+
+				<input type="text" placeholder="Adresse de départ">
+				<input type="text" placeholder="Adresse d'arrivée">
+
+				<div id="map"></div>
+
+				<p>Distance</p>
+				<input type="text" placeholder="0">
+
+				<p>Altitude</p>
+				<input type="text" placeholder="0">
 
 			<h2>Poids</h2>
 
 			<input type="radio" id="choice4" name="choice-weight" value="1">
 			<label for="choice4">0-1kg</label>
 
-			<input type="radio" id="choice4" name="choice-weight" value="2">
-			<label for="choice4">1-5kg</label>
+				<input type="radio" id="choice4" name="choice-weight" value="1">
+				<label for="choice4">0-1kg</label>
 
-			<input type="radio" id="choice4" name="choice-weight" value="3">
-			<label for="choice4">5-15kg</label>
+				<input type="radio" id="choice4" name="choice-weight" value="2">
+				<label for="choice4">1-5kg</label>
 
-			<input type="radio" id="choice4" name="choice-weight" value="4">
-			<label for="choice4">+15kg</label>
+				<input type="radio" id="choice4" name="choice-weight" value="3">
+				<label for="choice4">5-15kg</label>
 
-			<br>
+				<input type="radio" id="choice4" name="choice-weight" value="4">
+				<label for="choice4">+15kg</label>
 
-			<label for="weight-cost">Tarif</label>
-	
+				<br>
 
-			<input type="text" name="weight-cost" placeholder="0">
+				<label for="weight-cost">Tarif</label>
+				<input type="text" name="weight-cost" placeholder="0">
 
-			<h2>Urgence</h2>
+				<h2>Urgence</h2>
 
-			<input type="checkbox" name="Urgence">
-			<label for="Urgence">Urgence</label>
+				<input type="checkbox" name="Urgence">
+				<label for="Urgence">Urgence</label>
 
-			<div id="validate-container"><input id="validate" type="button" value="valider"></div>
-			
+				<div id="validate-container">
+				</div>
 			</form>
 		</div>
 
 
 	</div>
 
-    <script>
+	<script>
     	//https://www.geodatasource.com/developers/javascript
-		function distance(lat1, lon1, lat2, lon2, unit) {
-			var radlat1 = Math.PI * lat1/180
-			var radlat2 = Math.PI * lat2/180
-			var theta = lon1-lon2
-			var radtheta = Math.PI * theta/180
-			var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-			if (dist > 1) {
-				dist = 1;
-			}
-			dist = Math.acos(dist)
-			dist = dist * 180/Math.PI
+    	function distance(lat1, lon1, lat2, lon2, unit) {
+    		var radlat1 = Math.PI * lat1/180
+    		var radlat2 = Math.PI * lat2/180
+    		var theta = lon1-lon2
+    		var radtheta = Math.PI * theta/180
+    		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    		if (dist > 1) {
+    			dist = 1;
+    		}
+    		dist = Math.acos(dist)
+    		dist = dist * 180/Math.PI
 			dist = dist * 60 * 1.1515 // Miles
 			if (unit=="K") { dist = dist * 1.609344 } // Kilometers
 			if (unit=="N") { dist = dist * 0.8684 } // Nautical
-			return dist
+				return dist
 		}
 
 		function price(distance, factor = 2, ratio = 1.5) {
@@ -131,39 +128,39 @@
 		var map = L.map('map').setView([51.505, -0.09], 13);
 
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
 		L.marker([51.5, -0.09]).addTo(map)
-		    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-		    .openPopup();
+		.bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+		.openPopup();
 
-	    function onMapClick(e) {
-		    console.log("You clicked the map at " + e.latlng);
+		function onMapClick(e) {
+			console.log("You clicked the map at " + e.latlng);
 
-		    if( markers.length == 0) {
-		    	var marker = L.marker(e.latlng).addTo(map);
+			if( markers.length == 0) {
+				var marker = L.marker(e.latlng).addTo(map);
 
-		    	markers.push(marker);
-		    } else if (markers.length > 0) {
-		    	if (markers.length == 2) {
-			    	var marker = markers.pop();
+				markers.push(marker);
+			} else if (markers.length > 0) {
+				if (markers.length == 2) {
+					var marker = markers.pop();
 
-		    		map.removeLayer(marker);
-		    	}
+					map.removeLayer(marker);
+				}
 
 
-		    	var marker = L.marker(e.latlng).addTo(map);
+				var marker = L.marker(e.latlng).addTo(map);
 
-		    	markers.push(marker);
+				markers.push(marker);
 
 				var distance2 = distance(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[1].getLatLng().lat, markers[1].getLatLng().lng, "K");
-		    	document.getElementById('distance').textContent = distance2;
+				document.getElementById('distance').textContent = distance2;
 
-		    	document.getElementById('price').textContent = price(distance2);
-		    }
+				document.getElementById('price').textContent = price(distance2);
+			}
 
-		   
+
 		}
 
 		map.on('click', onMapClick);
@@ -184,7 +181,7 @@
 		        }
 		    };
 		}
-    </script>
 
+	</script>
 </body>
 </html>
