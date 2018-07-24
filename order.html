@@ -27,12 +27,14 @@
 			</div>
 			</div>
 
+			<form name="order">
 			<h1>Commander</h1>
 
 			<h2>Type de prestation</h2>
 
 			<input type="radio" id="choice1" name="choice" value="Livraison d'objets">
 			<label for="choice1">Livraison d'objets</label>
+			<div class="hidden" id="object-delivery">hidden</div>
 
 			<br>
 			
@@ -92,6 +94,7 @@
 
 			<div id="validate-container"><input id="validate" type="button" value="valider"></div>
 			
+			</form>
 		</div>
 
 
@@ -167,6 +170,20 @@
 
 
 
+		var rad = document.forms['order'].elements['choice'];
+		var prev = null;
+		for(var i = 0; i < rad.length; i++) {
+		    rad[i].onchange = function() {
+		        console.log(this.value);
+
+		        if (this.value == "Livraison d'objets") {
+
+		        	document.getElementById('object-delivery').classList.remove("hidden");
+		        } else {
+		        	document.getElementById('object-delivery').classList.add("hidden");
+		        }
+		    };
+		}
     </script>
 
 </body>
