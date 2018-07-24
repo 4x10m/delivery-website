@@ -1,0 +1,106 @@
+
+html {
+	background: black;
+	color: white;
+}
+
+body, html {
+    height: 100%;
+}
+
+html img {
+	width: 100%;
+}
+
+#map {
+	height: 400px;  /* The height is 400 pixels */
+	width: 100%;  /* The width is the width of the web page */
+}
+
+
+
+
+#banner-helper {
+	position: relative;
+}
+
+#title-banner {
+}
+
+#logo {
+	width: 200px;
+}
+
+#header {
+	display: table;
+	width: 100%;
+}
+
+#header-helper {
+	display: table-row;
+	width: 100%;
+}
+
+#navigation {
+	display: inline-block;
+	display: table-cell;
+	text-align: right;
+	vertical-align: middle;
+}
+
+#validate {
+	
+	position: relative;
+	top: 50%;
+
+}
+
+#validate-container {
+	text-align: center;
+	width: 100%;
+}
+
+#banner {
+	background-image: url("banner.jpg");
+		background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	background-attachment: fixed;
+
+	width: : 100%;
+}
+
+#cardview {
+
+
+	background: #706b62;
+	width: 80%;
+	height: 100%;
+	margin: 50px auto 50px auto;
+	text-align: none;
+}
+
+.container {
+	position: relative;
+	text-align: center;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+button {
+	background: white;
+}
+
+
+td { 
+	width: 30%;
+}
+
+.button-centered {
+	text-align: center;
+}
