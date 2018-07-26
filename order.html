@@ -71,6 +71,11 @@
 		      			<span id="end-address-infowindow-address"></span>
 				    </div>
 
+				    <div id="line-infowindow">
+	     		 		<span id="line-infowindow-name"  class="title" style="color: black;"></span><br>
+		      			<span id="line-infowindow-address" style="color: black;"></span>
+				    </div>
+
 				    <p>Distance</p>
 					<span id="order-distance"></span>
 
@@ -211,12 +216,19 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 	        var endAdressInfoWindowName = document.getElementById('end-address-infowindow-name');
 
 
-
 			var startAddressAutoComplete;
 			var startAddressInfoWindow;
 			var endAddressAutocomplete;
 
 			var endAddressInfoWindow;
+
+			var lineInfoWindowContent = document.getElementById('line-infowindow');
+	        var lineInfoWindowIcon = document.getElementById('line-infowindow-icon');
+	        var lineInfoWindowAddress = document.getElementById('line-infowindow-name');
+	        var lineInfoWindowName = document.getElementById('line-infowindow-address');
+	        var lineInfoWindow;
+
+			var pointsPath;
 
 		//https://www.geodatasource.com/developers/javascript
     	function calculateDistance(lat1, lon1, lat2, lon2, unit) {
@@ -240,15 +252,23 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
     		if(startAddressMarker && endAddressMarker) {
 				var distance = calculateDistance(startAddressMarker.getPosition().lat(), startAddressMarker.getPosition().lng(), endAddressMarker.getPosition().lat(), endAddressMarker.getPosition().lng(), "K");
 
-				orderDistance.textContent  = String(distance2);
+				orderDistance.textContent  = String(Math.round(distance * 100) / 100);
+
+				return distance;
 			}
+
+			return 0;
 		}
 
-		function calculatePrice(distance, factor = 2, ratio = 1.5) {
-			var ratio = 1.5;
-			var valmin = 15;
-			var valeur = 10;
-			return Math.pow(distance, factor) * (valmin / Math.pow(valeur, factor));
+		function refreshPrice(distance) {
+			if(startAddressMarker && endAddressMarker) {
+				var valmin = 4.2;
+				var valeur = 3.5;
+				var factor = 2;
+				var price = Math.pow(distance, factor) * (valmin / Math.pow(valeur, factor));
+
+				orderPrice.textContent = String(Math.round(price * 100) / 100);
+			}
 		}
 
 		function refreshElevation() {
@@ -276,7 +296,7 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 						}
 					}
 
-					orderElevation.textContent = elevation;
+					orderElevation.textContent = String(Math.round(elevation * 100) / 100);
 				});
 
 /*				elevator.getElevationForLocations({
@@ -302,24 +322,17 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 
 
     	function refreshMapViewPort() {
-    		var bounds = new google.maps.LatLngBounds();
-
-    		if (startAddressMarker) {
-    			bounds.extend(startAddressMarker);
+    		if (startAddressMarker && endAddressMarker) {
+    			var bounds = new google.maps.LatLngBounds(startAddressMarker.getPosition());
+    			bounds.extend(endAddressMarker.getPosition());
+    			map.fitBounds(bounds);
+    		} else if (startAddressMarker) {
+    			map.setZoom(17);
+				map.setCenter(startAddressMarker.getPosition());
+    		} else if (endAddressMarker) {
+    			map.setZoom(17);
+				map.setCenter(endAddressMarker.getPosition());
     		}
-
-    		if (endAddressMarker) {
-    			bounds.extend(endAddressMarker);
-    		}
-
-/*					if (place.geometry.viewport) {
-						map.fitBounds(place.geometry.viewport);
-					} else {
-						map.setCenter(place.geometry.location);
-						map.setZoom(17);  // Why 17? Because it looks good.
-					}*/
-
-    		map.fitBounds(bounds);
     	}
 
     	function extractPlaceAddress(place) {
@@ -335,24 +348,86 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
     	}
 
     	function handleStartAddressAutocomplete() {
-    		handleAutocomplete(startAddressAutoComplete, startAddressMarker, startAddressInfoWindow, startAdressInfoWindowIcon, startAdressInfoWindowName, startAdressInfoWindowAddress);
+    		if (startAddressMarker && startAddressInput.value == "") {
+    			startAddressMarker.setMap(null);
+    			startAddressMarker = null;
+    			return
+    		}
+
+
+
+    		startAddressMarker = handleAutocomplete("start-place", startAddressAutoComplete, startAddressMarker, startAddressInfoWindow, startAdressInfoWindowIcon, startAdressInfoWindowName, startAdressInfoWindowAddress);
+
+
+
+			var distance = refreshDistance();
+			refreshElevation();
+			refreshMapViewPort();
+			refreshPrice(distance);
+			refreshLine();
     	}
 
-		function handleEndAddressAutocomplete(searchBox, marker, infowindow, icon, name, address) {
-			handleAutocomplete(endAddressAutocomplete, endAddressMarker, endAddressInfoWindow, endAdressInfoWindowIcon, endAdressInfoWindowName, endAdressInfoWindowAddress);
+    	function refreshLine() {
+    		//lineInfoWindow.close();
+
+			if (startAddressMarker && endAddressMarker) {
+				if (pointsPath) {
+					pointsPath.setMap(null);
+					pointsPath= null;
+				}
+
+				var points = [
+					startAddressMarker.getPosition(),
+					endAddressMarker.getPosition()
+				];
+
+				pointsPath = new google.maps.Polyline({
+		          path: points,
+		          geodesic: true,
+		          strokeColor: '#3C0874',
+		          strokeOpacity: 1.0,
+		          strokeWeight: 2
+		        });
+
+   				pointsPath.setMap(map);
+
+   				var inBetween = google.maps.geometry.spherical.interpolate(startAddressMarker.getPosition(), endAddressMarker.getPosition(), 0.5);  
+
+				lineInfoWindowName.textContent = orderPrice.textContent;
+				lineInfoWindow.setPosition(inBetween);
+				lineInfoWindowAddress.textContent = orderDistance.textContent;
+				lineInfoWindow.open(map);
+				//lineInfoWindowContent.setVisible(true);
+			}
+    	}
+
+		function handleEndAddressAutocomplete() {
+			if (endAddressMarker && endAddressInput.value == "") {
+    			endAddressMarker.setMap(null);
+    			endAddressMarker = null;
+    			return
+			}
+
+			endAddressMarker = handleAutocomplete("end-place", endAddressAutocomplete, endAddressMarker, endAddressInfoWindow, endAdressInfoWindowIcon, endAdressInfoWindowName, endAdressInfoWindowAddress);
+
+			var distance = refreshDistance();
+			refreshElevation();
+			refreshMapViewPort();
+			refreshPrice(distance);
+			refreshLine();
 		}
 
-    	function handleAutocomplete(searchBox, marker, infowindow, icon, name, address) {
+    	function handleAutocomplete(storagekey, searchBox, marker, infowindow, icon, name, address) {
        		infowindow.close();
 
         	var place = searchBox.getPlace();
         	if (!place || !place.geometry) {
-        		var previousplace = JSON.parse(window.sessionStorage.getItem("place"));
+        		var previousplace = JSON.parse(window.sessionStorage.getItem(storagekey));
 
 				if (previousplace) {
 					if(!previousplace.geometry) {
 						console.log("no geometry");
-						window.sessionStorage.removeItem("place");		
+						window.sessionStorage.removeItem(storagekey);		
 						return;
 					}
 					place = previousplace;
@@ -361,7 +436,7 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 					return;
 				}
 			} else {
-				window.sessionStorage.setItem("place", JSON.stringify(place));
+				window.sessionStorage.setItem(storagekey, JSON.stringify(place));
 			}
 
         	if (marker == null) {
@@ -377,14 +452,16 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 				address = extractPlaceAddress(place.address_components);
 			}
 
+
+
 			icon.src = place.icon;
 			name.textContent = place.name;
 			address.textContent = address;
-			infowindow.open(map, marker);
+			//infowindow.open(map, marker);
 
-			refreshDistance();
-			refreshElevation();
-			refreshMapViewPort();
+
+
+			return marker;
        	}
 
 		function initMap() {
@@ -394,40 +471,28 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 
 			endAddressInfoWindow = new google.maps.InfoWindow();
 
-									map = new google.maps.Map(document.getElementById('map'), { zoom: 4, center: { lat: 42, lng: 2 }});
+			map = new google.maps.Map(document.getElementById('map'), { zoom: 4, center: { lat: 42, lng: 2 }});
 
 			// Departure autocomplete
-
-
 
 			startAddressAutoComplete.bindTo('bounds', map);
 			startAddressAutoComplete.setFields(['address_components', 'geometry', 'icon', 'name']);
             startAddressAutoComplete.setTypes([]);
-
-	        
 	        
 	        startAddressInfoWindow.setContent(startAddressInfoWindowContent);
-
-	        //startAddressAutoComplete = new google.maps.places.AutoComplete(startAddressInput);
 			startAddressAutoComplete.setBounds(map.getBounds());
 
 	         startAddressAutoComplete.addListener('place_changed', handleStartAddressAutocomplete);
 
 			// Destination autocomplete
 
-
 			endAddressAutocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
             endAddressAutocomplete.setTypes([]);
-
-           	
-	        
 	        endAddressInfoWindow.setContent(endAddressInfoWindowContent);
-
-/*var endAddressSearchBox = new google.maps.places.SearchBox(endAddressInput);*/
-
 	        endAddressAutocomplete.addListener('place_changed', handleEndAddressAutocomplete);
-	        console.log(startAddressInput.value);
-	        
+
+	        lineInfoWindow = new google.maps.InfoWindow();
+   			lineInfoWindow.setContent(lineInfoWindowContent);
 		}
 
 		function validatePerformanceType(radio) {
@@ -461,25 +526,21 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 			}
 
 			handleStartAddressAutocomplete();
-			//localStorage.getItem("place");
+			handleEndAddressAutocomplete();
 
-			//google.maps.event.trigger(startAddressAutoComplete, 'place_changed');
+			google.maps.event.addListenerOnce(map, 'idle', function(){
+    refreshMapViewPort();
+});
 
 			for(var i = 0; i < orderTypeRadio.length; i++) {
 				if(orderTypeRadio[i].checked) {
 					validatePerformanceType(orderTypeRadio[i]);
 				}
 			}
-
-/*			if (startAddressMarker || endAddressMarker) {
-				refreshDistance();
-				refreshElevation();
-				refreshMapViewPort();
-			}*/
 		};
 	</script>
 
-	<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap">
+	<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=initMap">
     </script>
 </body>
 </html>
