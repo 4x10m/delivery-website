@@ -54,19 +54,33 @@
 
 					<h3>Adresses</h3>
 
-					<input type="text" placeholder="Adresse de départ">
-					<input type="text" placeholder="Adresse d'arrivée">
+					<p>Addresse de départ</p>
+					<input type="text" id="start-address" name="start-address" placeholder="Adresse de départ">
+					<a>Selectionner sur la carte</a>
+					<div id="start-address-infowindow">
+			      		<img src="" width="16" height="16" id="start-address-infowindow-icon">
+	     		 		<span id="start-address-infowindow-name"  class="title"></span><br>
+		      			<span id="start-address-infowindow-address"></span>
+				    </div>
 
-					<div id="map"></div>
+				    <p>Addresse d'arrivée</p>
+					<input type="text" id="end-address" name="end-address" placeholder="Adresse d'arrivée">
+					<div id="end-address-infowindow">
+			      		<img src="" width="16" height="16" id="end-address-infowindow-icon">
+	     		 		<span id="end-address-infowindow-name"  class="title"></span><br>
+		      			<span id="end-address-infowindow-address"></span>
+				    </div>
 
-					<p>Distance</p>
-					<input type="text" placeholder="0">
+				    <p>Distance</p>
+					<span id="order-distance"></span>
 
 					<p>Altitude</p>
-					<input type="text" placeholder="0">
+					<span id="order-elevation"></span>
 
 					<p>Tarif</p>
-					<input type="text" placeholder="0">
+					<span id="order-price"></span>
+
+					<div id="map" style="height: 400px; width: 100%;"></div>
 
 					<h3>Poids</h3>
 
@@ -122,16 +136,16 @@
 					<input type="text" placeholder="Adresse de départ">
 					<input type="text" placeholder="Adresse d'arrivée">
 
-					<div id="map"></div>
-
 					<p>Distance</p>
-					<input type="text" placeholder="0">
+					<span id="order2-distance"></span>
 
 					<p>Altitude</p>
-					<input type="text" placeholder="0">
+					<span id="order2-altitude"></span>
 
 					<p>Tarif</p>
-					<input type="text" placeholder="0">
+					<span id="order2-price"></span>
+
+					<div id="map"></div>
 
 					<h2>Poids</h2>
 
@@ -163,7 +177,7 @@
 
 				<div id="validate-container">
 					<input id="reset-button" type="reset" value="Remise à zéro">
-					<input id="validate" type="submit" value="Valider">
+					<!-- <input id="validate" type="submit" value="Valider"> -->
 				</div>
 			</form>
 		</div>
@@ -171,9 +185,41 @@
 
 	</div>
 
-	<script>
-    	//https://www.geodatasource.com/developers/javascript
-    	function distance(lat1, lon1, lat2, lon2, unit) {
+	<script type="text/javascript">
+		var map;
+ 
+    	var startAddressMarker;
+    	var endAddressMarker;
+
+    	var orderTypeRadio = document.forms['order-form'].elements['order-type-radio'];
+		var startAddressInput = document.forms['order-form'].elements['start-address'];
+		var orderDistance = document.getElementById('order-distance');
+		var orderElevation = document.getElementById('order-elevation');
+		var orderPrice = document.getElementById('order-price');
+
+					var startAddressInput = document.getElementById('start-address');
+			var startAddressInfoWindowContent = document.getElementById('start-address-infowindow');
+	        var startAdressInfoWindowIcon = document.getElementById('start-address-infowindow-icon');
+	        var startAdressInfoWindowAddress = document.getElementById('start-address-infowindow-name');
+	        var startAdressInfoWindowName = document.getElementById('start-address-infowindow-address');
+
+				        var endAddressInput = document.getElementById('end-address');
+var endAddressInfoWindowContent = document.getElementById('end-address-infowindow');
+	        	        var endAdressInfoWindowIcon = document.getElementById('end-address-infowindow-icon');
+	        var endAdressInfoWindowAddress = document.getElementById('end-address-infowindow-address');
+
+	        var endAdressInfoWindowName = document.getElementById('end-address-infowindow-name');
+
+
+
+			var startAddressAutoComplete;
+			var startAddressInfoWindow;
+			var endAddressAutocomplete;
+
+			var endAddressInfoWindow;
+
+		//https://www.geodatasource.com/developers/javascript
+    	function calculateDistance(lat1, lon1, lat2, lon2, unit) {
     		var radlat1 = Math.PI * lat1/180
     		var radlat2 = Math.PI * lat2/180
     		var theta = lon1-lon2
@@ -190,71 +236,199 @@
 				return dist
 		}
 
-		function price(distance, factor = 2, ratio = 1.5) {
+    	function refreshDistance() {
+    		if(startAddressMarker && endAddressMarker) {
+				var distance = calculateDistance(startAddressMarker.getPosition().lat(), startAddressMarker.getPosition().lng(), endAddressMarker.getPosition().lat(), endAddressMarker.getPosition().lng(), "K");
+
+				orderDistance.textContent  = String(distance2);
+			}
+		}
+
+		function calculatePrice(distance, factor = 2, ratio = 1.5) {
 			var ratio = 1.5;
 			var valmin = 15;
 			var valeur = 10;
 			return Math.pow(distance, factor) * (valmin / Math.pow(valeur, factor));
 		}
 
+		function refreshElevation() {
+			if(startAddressMarker != null && endAddressMarker != null) {
+				var elevator = new google.maps.ElevationService;
+				var elevations;
+				var elevation = 0;
 
-		var markers = [];
-		var map = L.map('map').setView([51.505, -0.09], 13);
+				elevator.getElevationAlongPath({
+					'path': [startAddressMarker.getPosition(), endAddressMarker.getPosition()],
+					'samples': 40
+				}, function(elevations, status) {
+					if (status !== 'OK') {
+					// Show the error code inside the chartDiv.
+						console.log(status);
+						return;
+					}
 
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-		}).addTo(map);
+					for(var index = 1; index < elevations.length - 1; index++) {
+						if(index < elevations.length - 2) {
+							var diff = elevations[index].elevation - elevations[index - 1].elevation;
+							if (diff > 0) {
+								elevation += diff;
+							}
+						}
+					}
 
-		map.locate({setView: true, maxZoom: 16});
+					orderElevation.textContent = elevation;
+				});
 
-		function onLocationFound(e) {
-			var radius = e.accuracy / 2;
+/*				elevator.getElevationForLocations({
+					'locations': [startAddressMarker.getPosition(), endAddressMarker.getPosition()]
+				}, function(results, status) {
+					if (status === 'OK') {
+						console.log(results);
 
-			L.marker(e.latlng).addTo(map)
-			.bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-			L.circle(e.latlng, radius).addTo(map);
+						if (results[0] && results[1]) {
+							var elevation = results[1].elevation - results[0].elevation;
+							
+							
+						} else {
+							console.log('No elevation found');
+						}
+					} else {
+						console.log(status);
+					}
+				});*/
+			}
 		}
 
-		function onLocationError(e) {
-			alert(e.message);
+
+
+    	function refreshMapViewPort() {
+    		var bounds = new google.maps.LatLngBounds();
+
+    		if (startAddressMarker) {
+    			bounds.extend(startAddressMarker);
+    		}
+
+    		if (endAddressMarker) {
+    			bounds.extend(endAddressMarker);
+    		}
+
+/*					if (place.geometry.viewport) {
+						map.fitBounds(place.geometry.viewport);
+					} else {
+						map.setCenter(place.geometry.location);
+						map.setZoom(17);  // Why 17? Because it looks good.
+					}*/
+
+    		map.fitBounds(bounds);
+    	}
+
+    	function extractPlaceAddress(place) {
+    		if(place && place.address_components) {
+	    		return [
+					(place.address_components[0] && place.address_components[0].short_name || ''),
+					(place.address_components[1] && place.address_components[1].short_name || ''),
+					(place.address_components[2] && place.address_components[2].short_name || '')
+				].join(' ');
+    		}
+
+    		return "";
+    	}
+
+    	function handleStartAddressAutocomplete() {
+    		handleAutocomplete(startAddressAutoComplete, startAddressMarker, startAddressInfoWindow, startAdressInfoWindowIcon, startAdressInfoWindowName, startAdressInfoWindowAddress);
+    	}
+
+		function handleEndAddressAutocomplete(searchBox, marker, infowindow, icon, name, address) {
+			handleAutocomplete(endAddressAutocomplete, endAddressMarker, endAddressInfoWindow, endAdressInfoWindowIcon, endAdressInfoWindowName, endAdressInfoWindowAddress);
 		}
 
-		map.on('locationerror', onLocationError);
+    	function handleAutocomplete(searchBox, marker, infowindow, icon, name, address) {
+       		infowindow.close();
 
-		L.marker([51.5, -0.09]).addTo(map)
-		.bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-		.openPopup();
+        	var place = searchBox.getPlace();
+        	if (!place || !place.geometry) {
+        		var previousplace = JSON.parse(window.sessionStorage.getItem("place"));
 
-		function onMapClick(e) {
-			console.log("You clicked the map at " + e.latlng);
-
-			if( markers.length == 0) {
-				var marker = L.marker(e.latlng).addTo(map);
-
-				markers.push(marker);
-			} else if (markers.length > 0) {
-				if (markers.length == 2) {
-					var marker = markers.pop();
-
-					map.removeLayer(marker);
+				if (previousplace) {
+					if(!previousplace.geometry) {
+						console.log("no geometry");
+						window.sessionStorage.removeItem("place");		
+						return;
+					}
+					place = previousplace;
+				} else {
+					console.log("no place");
+					return;
 				}
-
-
-				var marker = L.marker(e.latlng).addTo(map);
-
-				markers.push(marker);
-
-				var distance2 = distance(markers[0].getLatLng().lat, markers[0].getLatLng().lng, markers[1].getLatLng().lat, markers[1].getLatLng().lng, "K");
-				document.getElementById('distance').textContent = distance2;
-
-				document.getElementById('price').textContent = price(distance2);
+			} else {
+				window.sessionStorage.setItem("place", JSON.stringify(place));
 			}
 
+        	if (marker == null) {
+        		marker = new google.maps.Marker({position: place.geometry.location, map: map});
+        	} else {
+				marker.setVisible(false); 
+				marker.setPosition(place.geometry.location);
+				marker.setVisible(true);
+        	}
 
+			var address = '';
+			if (place.address_components) {
+				address = extractPlaceAddress(place.address_components);
+			}
+
+			icon.src = place.icon;
+			name.textContent = place.name;
+			address.textContent = address;
+			infowindow.open(map, marker);
+
+			refreshDistance();
+			refreshElevation();
+			refreshMapViewPort();
+       	}
+
+		function initMap() {
+			startAddressAutoComplete = new google.maps.places.Autocomplete(startAddressInput);
+			startAddressInfoWindow = new google.maps.InfoWindow();
+			endAddressAutocomplete = new google.maps.places.Autocomplete(endAddressInput);
+
+			endAddressInfoWindow = new google.maps.InfoWindow();
+
+									map = new google.maps.Map(document.getElementById('map'), { zoom: 4, center: { lat: 42, lng: 2 }});
+
+			// Departure autocomplete
+
+
+
+			startAddressAutoComplete.bindTo('bounds', map);
+			startAddressAutoComplete.setFields(['address_components', 'geometry', 'icon', 'name']);
+            startAddressAutoComplete.setTypes([]);
+
+	        
+	        
+	        startAddressInfoWindow.setContent(startAddressInfoWindowContent);
+
+	        //startAddressAutoComplete = new google.maps.places.AutoComplete(startAddressInput);
+			startAddressAutoComplete.setBounds(map.getBounds());
+
+	         startAddressAutoComplete.addListener('place_changed', handleStartAddressAutocomplete);
+
+			// Destination autocomplete
+
+
+			endAddressAutocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
+            endAddressAutocomplete.setTypes([]);
+
+           	
+	        
+	        endAddressInfoWindow.setContent(endAddressInfoWindowContent);
+
+/*var endAddressSearchBox = new google.maps.places.SearchBox(endAddressInput);*/
+
+	        endAddressAutocomplete.addListener('place_changed', handleEndAddressAutocomplete);
+	        console.log(startAddressInput.value);
+	        
 		}
-
-		map.on('click', onMapClick);
 
 		function validatePerformanceType(radio) {
 			console.log(radio.value);
@@ -275,21 +449,37 @@
 			}
 		}
 
-		var rad = document.forms['order-form'].elements['order-type-radio'];
-		for(var i = 0; i < rad.length; i++) {
-			rad[i].onchange = function() {
+		for(var i = 0; i < orderTypeRadio.length; i++) {
+			orderTypeRadio.onchange = function() {
 				validatePerformanceType(this);
 			}
 		}
 
 		window.onload = function() {
-			for(var i = 0; i < rad.length; i++) {
-				if(rad[i].checked) {
-					validatePerformanceType(rad[i]);
+			if (typeof(Storage) === "undefined") {
+				console.log("no storage");
+			}
+
+			handleStartAddressAutocomplete();
+			//localStorage.getItem("place");
+
+			//google.maps.event.trigger(startAddressAutoComplete, 'place_changed');
+
+			for(var i = 0; i < orderTypeRadio.length; i++) {
+				if(orderTypeRadio[i].checked) {
+					validatePerformanceType(orderTypeRadio[i]);
 				}
 			}
+
+/*			if (startAddressMarker || endAddressMarker) {
+				refreshDistance();
+				refreshElevation();
+				refreshMapViewPort();
+			}*/
 		};
 	</script>
 
+	<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap">
+    </script>
 </body>
 </html>
