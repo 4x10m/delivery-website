@@ -1,6 +1,14 @@
 
 .gm-style-iw + div {display: none;}
 
+.radio-label {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.weight-radio {
+}
+
 html {
 	background: black;
 	color: white;

@@ -54,19 +54,26 @@
 
 					<h3>Adresses</h3>
 
-					<p>Addresse de départ</p>
-					<input type="text" id="start-address" name="start-address" placeholder="Adresse de départ">
-					<a>Selectionner sur la carte</a>
+					<div id="addresses">
+						<div id="start-address">
+							<p>Addresse de départ</p>
+							<input type="text" id="start-address-input" name="start-address" placeholder="Adresse de départ">
+							<a>Selectionner sur la carte</a>
+						</div>
+					
 
-				    <p>Addresse d'arrivée</p>
-					<input type="text" id="end-address" name="end-address" placeholder="Adresse d'arrivée">
-					<a>Selectionner sur la carte</a><br>
+						<div id="end-address">
+					    	<p>Addresse d'arrivée</p>
+							<input type="text" id="end-address-input" name="end-address" placeholder="Adresse d'arrivée">
+							<a>Selectionner sur la carte</a><br>
+						</div>
+					</div>
 
 					<br>
 
 					<div id="map" style="height: 400px; width: 100%;"></div>
 
-					<div id="line-infowindow" style="color: black;">
+					<div class="hidden" id="line-infowindow" style="color: black;">
 	     		 		Distance: <span id="line-infowindow-distance"></span>km<br>
 		      			Gain: <span id="line-infowindow-elevation"></span>m<br>
 		      			Tarif: <span id="line-infowindow-price"></span>€
@@ -75,16 +82,18 @@
 					<h3>Poids</h3>
 
 					<input type="radio" id="choice4" name="choice-weight" value="1">
-					<label for="choice4">0-1kg</label>
+					<label for="choice4"><span class="radio-label">0-1kg<br>+0.5€</span></label>
+
 
 					<input type="radio" id="choice4" name="choice-weight" value="2">
-					<label for="choice4">1-5kg</label>
+					<label for="choice4"><span class="radio-label">1-5kg<br>+1€</span></label>
+
 
 					<input type="radio" id="choice4" name="choice-weight" value="3">
-					<label for="choice4">5-15kg</label>
+					<label for="choice4"><span class="radio-label">5-15kg<br>+2€</span></label>
 
 					<input type="radio" id="choice4" name="choice-weight" value="4">
-					<label for="choice4">+15kg</label>
+					<label for="choice4"><span class="radio-label">+15kg<br>+3€</span></label>
 
 					<br>
 
@@ -166,12 +175,16 @@
 
 				<div id="validate-container">
 					<input id="reset-button" type="reset" value="Remise à zéro">
-					<!-- <input id="validate" type="submit" value="Valider"> -->
+					<input id="validate" type="submit" value="Valider">
 				</div>
 			</form>
 		</div>
 
 
+	</div>
+
+	<div id="fixed-price" style="position: fixed; bottom: 0px;">
+		<span id="fixed-price-content"></span>
 	</div>
 
 	<script type="text/javascript">
@@ -201,8 +214,15 @@
 		var orderElevation = document.getElementById('order-elevation');
 		var orderPrice = document.getElementById('order-price');
 
-		var startAddressInput = document.getElementById('start-address');
-		var endAddressInput = document.getElementById('end-address');
+
+		var startAddressDiv = document.getElementById('start-address');
+		var startAddressInput = document.getElementById('start-address-input');
+		var endAddressDiv = document.getElementById('end-address');
+		var endAddressInput = document.getElementById('end-address-input');
+		var addressesDiv = document.getElementById('addresses');
+	var fixedPriceDiv = document.getElementById('fixed-price');
+		var fixedPriceContent = document.getElementById('fixed-price-content');
+	
 
 		var startAddressAutoComplete;
 		var endAddressAutocomplete;
@@ -359,10 +379,12 @@
    				pointsPath.setMap(map);
 
    				var inBetween = google.maps.geometry.spherical.interpolate(startAddressMarker.getPosition(), endAddressMarker.getPosition(), 0.5);  
-
+   				lineInfoWindowContent.classList.remove("hidden");
+   				
 				lineInfoWindowPrice.textContent = order.price;
 				lineInfoWindowDistance.textContent = order.distance;
 				lineInfoWindowElevation.textContent = order.elevation;
+				fixedPriceContent.textContent = order.price;
 
 				lineInfoWindow.setPosition(inBetween);
 				lineInfoWindow.open(map);
@@ -472,7 +494,7 @@
 
 			endAddressInfoWindow = new google.maps.InfoWindow();
 
-			map = new google.maps.Map(document.getElementById('map'), { zoom: 4, center: { lat: 42, lng: 2 }});
+			map = new google.maps.Map(document.getElementById('map'), { zoom: 4, center: { lat: 42, lng: 2 }, disableDefaultUI: true });
 
 			// Departure autocomplete
 
@@ -491,6 +513,11 @@
 
 	        lineInfoWindow = new google.maps.InfoWindow();
    			lineInfoWindow.setContent(lineInfoWindowContent);
+
+   			addressesDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(addressesDiv);
+
+
 		}
 
 		function validatePerformanceType(radio) {
