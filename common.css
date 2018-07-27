@@ -1,4 +1,6 @@
 
+.gm-style-iw + div {display: none;}
+
 html {
 	background: black;
 	color: white;
@@ -12,15 +14,25 @@ html img {
 	width: 100%;
 }
 
+a {
+	color: white;
+	text-decoration: none;
+	padding: 5px;
+	margin: 15px;
+}
+
 .hidden {
 	display: none;
 }
+
 #map {
 	height: 400px;  /* The height is 400 pixels */
 	width: 100%;  /* The width is the width of the web page */
 }
 
-
+#start-address, #end-address {
+	width: 100%;
+}
 
 
 #banner-helper {
@@ -106,4 +118,14 @@ td {
 
 .button-centered {
 	text-align: center;
+}
+
+h1 {
+	text-align: center;
+}
+
+form {
+	background-color: gray;
+	padding: 50px;
+	margin: 50px;
 }

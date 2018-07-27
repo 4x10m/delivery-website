@@ -57,35 +57,20 @@
 					<p>Addresse de départ</p>
 					<input type="text" id="start-address" name="start-address" placeholder="Adresse de départ">
 					<a>Selectionner sur la carte</a>
-					<div id="start-address-infowindow">
-			      		<img src="" width="16" height="16" id="start-address-infowindow-icon">
-	     		 		<span id="start-address-infowindow-name"  class="title"></span><br>
-		      			<span id="start-address-infowindow-address"></span>
-				    </div>
 
 				    <p>Addresse d'arrivée</p>
 					<input type="text" id="end-address" name="end-address" placeholder="Adresse d'arrivée">
-					<div id="end-address-infowindow">
-			      		<img src="" width="16" height="16" id="end-address-infowindow-icon">
-	     		 		<span id="end-address-infowindow-name"  class="title"></span><br>
-		      			<span id="end-address-infowindow-address"></span>
-				    </div>
+					<a>Selectionner sur la carte</a><br>
 
-				    <div id="line-infowindow">
-	     		 		<span id="line-infowindow-name"  class="title" style="color: black;"></span><br>
-		      			<span id="line-infowindow-address" style="color: black;"></span>
-				    </div>
-
-				    <p>Distance</p>
-					<span id="order-distance"></span>
-
-					<p>Altitude</p>
-					<span id="order-elevation"></span>
-
-					<p>Tarif</p>
-					<span id="order-price"></span>
+					<br>
 
 					<div id="map" style="height: 400px; width: 100%;"></div>
+
+					<div id="line-infowindow" style="color: black;">
+	     		 		Distance: <span id="line-infowindow-distance"></span>km<br>
+		      			Gain: <span id="line-infowindow-elevation"></span>m<br>
+		      			Tarif: <span id="line-infowindow-price"></span>€
+				    </div>
 
 					<h3>Poids</h3>
 
@@ -141,11 +126,10 @@
 					<input type="text" placeholder="Adresse de départ">
 					<input type="text" placeholder="Adresse d'arrivée">
 
-					<p>Distance</p>
+					Distance
 					<span id="order2-distance"></span>
 
-					<p>Altitude</p>
-					<span id="order2-altitude"></span>
+					Altitude <span display="display: inline;" id="order2-altitude"></span>
 
 					<p>Tarif</p>
 					<span id="order2-price"></span>
@@ -191,6 +175,21 @@
 	</div>
 
 	<script type="text/javascript">
+		var OrderType = { "objectdelivery":1, "course":2, "backathome":3, "personalized":4, "default":0 };
+
+		class Order {
+			constructor() {
+				this.orderType = 0;
+				this.price = 0;
+				this.distance =  0;
+				this.elevation =  0;
+				this.startAddress =  null;
+				this.endAddress =  null;
+				this.weight =  0;
+				this.urgency =  null;
+			}
+		}
+
 		var map;
  
     	var startAddressMarker;
@@ -202,33 +201,21 @@
 		var orderElevation = document.getElementById('order-elevation');
 		var orderPrice = document.getElementById('order-price');
 
-					var startAddressInput = document.getElementById('start-address');
-			var startAddressInfoWindowContent = document.getElementById('start-address-infowindow');
-	        var startAdressInfoWindowIcon = document.getElementById('start-address-infowindow-icon');
-	        var startAdressInfoWindowAddress = document.getElementById('start-address-infowindow-name');
-	        var startAdressInfoWindowName = document.getElementById('start-address-infowindow-address');
+		var startAddressInput = document.getElementById('start-address');
+		var endAddressInput = document.getElementById('end-address');
 
-				        var endAddressInput = document.getElementById('end-address');
-var endAddressInfoWindowContent = document.getElementById('end-address-infowindow');
-	        	        var endAdressInfoWindowIcon = document.getElementById('end-address-infowindow-icon');
-	        var endAdressInfoWindowAddress = document.getElementById('end-address-infowindow-address');
+		var startAddressAutoComplete;
+		var endAddressAutocomplete;
 
-	        var endAdressInfoWindowName = document.getElementById('end-address-infowindow-name');
+		var lineInfoWindowContent = document.getElementById('line-infowindow');
+        var lineInfoWindowDistance = document.getElementById('line-infowindow-distance');
+        var lineInfoWindowElevation = document.getElementById('line-infowindow-elevation');
+        var lineInfoWindowPrice = document.getElementById('line-infowindow-price');
+        var lineInfoWindow;
 
+		var pointsPath;
 
-			var startAddressAutoComplete;
-			var startAddressInfoWindow;
-			var endAddressAutocomplete;
-
-			var endAddressInfoWindow;
-
-			var lineInfoWindowContent = document.getElementById('line-infowindow');
-	        var lineInfoWindowIcon = document.getElementById('line-infowindow-icon');
-	        var lineInfoWindowAddress = document.getElementById('line-infowindow-name');
-	        var lineInfoWindowName = document.getElementById('line-infowindow-address');
-	        var lineInfoWindow;
-
-			var pointsPath;
+		var order = new Order();
 
 		//https://www.geodatasource.com/developers/javascript
     	function calculateDistance(lat1, lon1, lat2, lon2, unit) {
@@ -252,7 +239,7 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
     		if(startAddressMarker && endAddressMarker) {
 				var distance = calculateDistance(startAddressMarker.getPosition().lat(), startAddressMarker.getPosition().lng(), endAddressMarker.getPosition().lat(), endAddressMarker.getPosition().lng(), "K");
 
-				orderDistance.textContent  = String(Math.round(distance * 100) / 100);
+				order.distance  = String(Math.round(distance * 100) / 100);
 
 				return distance;
 			}
@@ -267,7 +254,7 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 				var factor = 2;
 				var price = Math.pow(distance, factor) * (valmin / Math.pow(valeur, factor));
 
-				orderPrice.textContent = String(Math.round(price * 100) / 100);
+				order.price = String(Math.round(price * 100) / 100);
 			}
 		}
 
@@ -296,7 +283,7 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 						}
 					}
 
-					orderElevation.textContent = String(Math.round(elevation * 100) / 100);
+					order.elevation = String(Math.round(elevation * 100) / 100);
 				});
 
 /*				elevator.getElevationForLocations({
@@ -347,26 +334,6 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
     		return "";
     	}
 
-    	function handleStartAddressAutocomplete() {
-    		if (startAddressMarker && startAddressInput.value == "") {
-    			startAddressMarker.setMap(null);
-    			startAddressMarker = null;
-    			return
-    		}
-
-
-
-    		startAddressMarker = handleAutocomplete("start-place", startAddressAutoComplete, startAddressMarker, startAddressInfoWindow, startAdressInfoWindowIcon, startAdressInfoWindowName, startAdressInfoWindowAddress);
-
-
-
-			var distance = refreshDistance();
-			refreshElevation();
-			refreshMapViewPort();
-			refreshPrice(distance);
-			refreshLine();
-    	}
-
     	function refreshLine() {
     		//lineInfoWindow.close();
 
@@ -393,22 +360,59 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 
    				var inBetween = google.maps.geometry.spherical.interpolate(startAddressMarker.getPosition(), endAddressMarker.getPosition(), 0.5);  
 
-				lineInfoWindowName.textContent = orderPrice.textContent;
+				lineInfoWindowPrice.textContent = order.price;
+				lineInfoWindowDistance.textContent = order.distance;
+				lineInfoWindowElevation.textContent = order.elevation;
+
 				lineInfoWindow.setPosition(inBetween);
-				lineInfoWindowAddress.textContent = orderDistance.textContent;
 				lineInfoWindow.open(map);
 				//lineInfoWindowContent.setVisible(true);
 			}
     	}
 
-		function handleEndAddressAutocomplete() {
-			if (endAddressMarker && endAddressInput.value == "") {
-    			endAddressMarker.setMap(null);
-    			endAddressMarker = null;
-    			return
-			}
+    	function handleStartAddressAutocomplete() {
+    		if (startAddressInput.value == "") {
+    			if (startAddressMarker) {
+    				startAddressMarker.setMap(null);
+    				startAddressMarker = null;
+    			}
 
-			endAddressMarker = handleAutocomplete("end-place", endAddressAutocomplete, endAddressMarker, endAddressInfoWindow, endAdressInfoWindowIcon, endAdressInfoWindowName, endAdressInfoWindowAddress);
+    			if(window.sessionStorage.getItem("start-place")) {
+    				window.sessionStorage.removeItem("start-place");	
+    			}
+    			
+    			return;
+    		}
+
+    		autocompleteResult = handleAutocomplete("start-place", startAddressAutoComplete, startAddressMarker);
+    		startAddressMarker = autocompleteResult.marker;
+			order.startAddress = autocompleteResult.address;
+
+			var distance = refreshDistance();
+			refreshElevation();
+			refreshMapViewPort();
+			refreshPrice(distance);
+			refreshLine();
+    	}
+
+		function handleEndAddressAutocomplete() {
+    		if (endAddressInput.value == "") {
+    			if (endAddressMarker) {
+    				endAddressMarker.setMap(null);
+    				endAddressMarker = null;
+    			}
+
+    			if(window.sessionStorage.getItem("end-place")) {
+    				window.sessionStorage.removeItem("end-place");	
+    			}
+    			
+    			return;
+    		}
+
+			autocompleteResult = handleAutocomplete("end-place", endAddressAutocomplete, endAddressMarker);
+			endAddressMarker = autocompleteResult.marker;
+			order.startAddress = autocompleteResult.address;
+
 
 			var distance = refreshDistance();
 			refreshElevation();
@@ -417,9 +421,7 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 			refreshLine();
 		}
 
-    	function handleAutocomplete(storagekey, searchBox, marker, infowindow, icon, name, address) {
-       		infowindow.close();
-
+    	function handleAutocomplete(storagekey, searchBox, marker, infowindow) {
         	var place = searchBox.getPlace();
         	if (!place || !place.geometry) {
         		var previousplace = JSON.parse(window.sessionStorage.getItem(storagekey));
@@ -453,20 +455,19 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 			}
 
 
-
-			icon.src = place.icon;
+			
+/*			icon.src = place.icon;
 			name.textContent = place.name;
-			address.textContent = address;
+			address.textContent = address;*/
 			//infowindow.open(map, marker);
 
 
 
-			return marker;
+			return { marker: marker, address: address };
        	}
 
 		function initMap() {
 			startAddressAutoComplete = new google.maps.places.Autocomplete(startAddressInput);
-			startAddressInfoWindow = new google.maps.InfoWindow();
 			endAddressAutocomplete = new google.maps.places.Autocomplete(endAddressInput);
 
 			endAddressInfoWindow = new google.maps.InfoWindow();
@@ -478,8 +479,6 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 			startAddressAutoComplete.bindTo('bounds', map);
 			startAddressAutoComplete.setFields(['address_components', 'geometry', 'icon', 'name']);
             startAddressAutoComplete.setTypes([]);
-	        
-	        startAddressInfoWindow.setContent(startAddressInfoWindowContent);
 			startAddressAutoComplete.setBounds(map.getBounds());
 
 	         startAddressAutoComplete.addListener('place_changed', handleStartAddressAutocomplete);
@@ -488,7 +487,6 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 
 			endAddressAutocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
             endAddressAutocomplete.setTypes([]);
-	        endAddressInfoWindow.setContent(endAddressInfoWindowContent);
 	        endAddressAutocomplete.addListener('place_changed', handleEndAddressAutocomplete);
 
 	        lineInfoWindow = new google.maps.InfoWindow();
@@ -504,18 +502,26 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 			document.getElementById('backathome-order-container').classList.add("hidden");
 
 			if (radio.value == "objectdelivery") {
+				order.orderType = OrderType.objectdelivery;
+
 				document.getElementById('objectdelivery-order-container').classList.remove("hidden");
 			} else if (radio.value == "course") {
+				order.orderType = OrderType.course;
+
 				document.getElementById('course-order-container').classList.remove("hidden");
 			} else if (radio.value == "personalized") {
+				order.orderType = OrderType.personalized;
+
 				document.getElementById('personalized-order-container').classList.remove("hidden");
 			} else if (radio.value == "backathome") {
+				order.orderType = OrderType.backathome;
+
 				document.getElementById('backathome-order-container').classList.remove("hidden");
 			}
 		}
 
 		for(var i = 0; i < orderTypeRadio.length; i++) {
-			orderTypeRadio.onchange = function() {
+			orderTypeRadio[i].onchange = function() {
 				validatePerformanceType(this);
 			}
 		}
@@ -529,8 +535,8 @@ var endAddressInfoWindowContent = document.getElementById('end-address-infowindo
 			handleEndAddressAutocomplete();
 
 			google.maps.event.addListenerOnce(map, 'idle', function(){
-    refreshMapViewPort();
-});
+			    refreshMapViewPort();
+			});
 
 			for(var i = 0; i < orderTypeRadio.length; i++) {
 				if(orderTypeRadio[i].checked) {
