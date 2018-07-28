@@ -6,16 +6,19 @@
 	vertical-align: middle;
 }
 
-.weight-radio {
-}
-
 html {
 	background: black;
 	color: white;
+
+	padding: 0px;
+    margin: 0px;
+    height: 100%;
 }
 
-body, html {
+body {
     height: 100%;
+    padding: 0px;
+    margin: 0px;
 }
 
 html img {
@@ -78,6 +81,14 @@ a {
 
 }
 
+#fixed-price {
+	position: fixed;
+	bottom: 0px;
+	right: 50px;
+	padding: 10px;
+	background-color: #2F3542;
+}
+
 #validate-container {
 	text-align: center;
 	width: 100%;
@@ -85,21 +96,19 @@ a {
 
 #banner {
 	background-image: url("banner.jpg");
-		background-repeat: no-repeat;
+	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
-
+	min-height: 100%;
 	width: : 100%;
 }
 
 #cardview {
-
-
+	padding: 25px 0px 25px 0px;
 	background: #706b62;
 	width: 80%;
-	height: 100%;
-	margin: 50px auto 50px auto;
+	margin: 0px auto 0px auto;
 	text-align: none;
 }
 
@@ -134,6 +143,6 @@ h1 {
 
 form {
 	background-color: gray;
-	padding: 50px;
-	margin: 50px;
+	padding: 20px 50px 20px 50px;
+	margin: 20px 50px 20px 50px;
 }

@@ -28,7 +28,7 @@
 
 			<h1>Commander</h1>
 
-			<form name="order-form">
+			<form name="order-form" action="http://localhost:8000/order.php" >
 
 				<h2>Type de prestation</h2>
 
@@ -56,14 +56,14 @@
 
 					<div id="addresses">
 						<div id="start-address">
-							<p>Addresse de départ</p>
+							<span>Addresse de départ</span>
 							<input type="text" id="start-address-input" name="start-address" placeholder="Adresse de départ">
 							<a>Selectionner sur la carte</a>
 						</div>
 					
 
 						<div id="end-address">
-					    	<p>Addresse d'arrivée</p>
+					    	<span>Addresse d'arrivée</span>
 							<input type="text" id="end-address-input" name="end-address" placeholder="Adresse d'arrivée">
 							<a>Selectionner sur la carte</a><br>
 						</div>
@@ -85,25 +85,25 @@
 					<label for="choice4"><span class="radio-label">0-1kg<br>+0.5€</span></label>
 
 
-					<input type="radio" id="choice4" name="choice-weight" value="2">
+					<input type="radio" id="choice1" name="choice-weight" value="2">
 					<label for="choice4"><span class="radio-label">1-5kg<br>+1€</span></label>
 
 
-					<input type="radio" id="choice4" name="choice-weight" value="3">
+					<input type="radio" id="choice2" name="choice-weight" value="3">
 					<label for="choice4"><span class="radio-label">5-15kg<br>+2€</span></label>
 
-					<input type="radio" id="choice4" name="choice-weight" value="4">
+					<input type="radio" id="choice3" name="choice-weight" value="4">
 					<label for="choice4"><span class="radio-label">+15kg<br>+3€</span></label>
 
 					<br>
 
 					<label for="weight-cost">Tarif</label>
-					<input type="text" name="weight-cost" placeholder="0">
+					<span id="weight-cost-value"></span>
 
 					<h3>Urgence</h3>
 
-					<input type="checkbox" name="Urgence">
-					<label for="Urgence">Urgence</label>
+					<input type="checkbox" name="urgency-checkbox">
+					<label for="Urgence">Urgence +0.5€</label>
 				</div>
 
 				<br>
@@ -130,44 +130,6 @@
 				Pour toute demande personnalisée</label>
 
 				<div class="hidden" id="personalized-order-container">
-					<h2>Adresses</h2>
-
-					<input type="text" placeholder="Adresse de départ">
-					<input type="text" placeholder="Adresse d'arrivée">
-
-					Distance
-					<span id="order2-distance"></span>
-
-					Altitude <span display="display: inline;" id="order2-altitude"></span>
-
-					<p>Tarif</p>
-					<span id="order2-price"></span>
-
-					<div id="map"></div>
-
-					<h2>Poids</h2>
-
-					<input type="radio" id="choice4" name="choice-weight" value="1">
-					<label for="choice4">0-1kg</label>
-
-					<input type="radio" id="choice4" name="choice-weight" value="2">
-					<label for="choice4">1-5kg</label>
-
-					<input type="radio" id="choice4" name="choice-weight" value="3">
-					<label for="choice4">5-15kg</label>
-
-					<input type="radio" id="choice4" name="choice-weight" value="4">
-					<label for="choice4">+15kg</label>
-
-					<br>
-
-					<label for="weight-cost">Tarif</label>
-					<input type="text" name="weight-cost" placeholder="0">
-
-					<h2>Urgence</h2>
-
-					<input type="checkbox" name="Urgence">
-					<label for="Urgence">Urgence</label>
 				</div>
 
 				<!-- Default choice -->
@@ -183,395 +145,12 @@
 
 	</div>
 
-	<div id="fixed-price" style="position: fixed; bottom: 0px;">
-		<span id="fixed-price-content"></span>
+	<div id="fixed-price">
+		Prix total: 
+		<span id="fixed-price-content">0</span> €
 	</div>
 
-	<script type="text/javascript">
-		var OrderType = { "objectdelivery":1, "course":2, "backathome":3, "personalized":4, "default":0 };
-
-		class Order {
-			constructor() {
-				this.orderType = 0;
-				this.price = 0;
-				this.distance =  0;
-				this.elevation =  0;
-				this.startAddress =  null;
-				this.endAddress =  null;
-				this.weight =  0;
-				this.urgency =  null;
-			}
-		}
-
-		var map;
- 
-    	var startAddressMarker;
-    	var endAddressMarker;
-
-    	var orderTypeRadio = document.forms['order-form'].elements['order-type-radio'];
-		var startAddressInput = document.forms['order-form'].elements['start-address'];
-		var orderDistance = document.getElementById('order-distance');
-		var orderElevation = document.getElementById('order-elevation');
-		var orderPrice = document.getElementById('order-price');
-
-
-		var startAddressDiv = document.getElementById('start-address');
-		var startAddressInput = document.getElementById('start-address-input');
-		var endAddressDiv = document.getElementById('end-address');
-		var endAddressInput = document.getElementById('end-address-input');
-		var addressesDiv = document.getElementById('addresses');
-	var fixedPriceDiv = document.getElementById('fixed-price');
-		var fixedPriceContent = document.getElementById('fixed-price-content');
-	
-
-		var startAddressAutoComplete;
-		var endAddressAutocomplete;
-
-		var lineInfoWindowContent = document.getElementById('line-infowindow');
-        var lineInfoWindowDistance = document.getElementById('line-infowindow-distance');
-        var lineInfoWindowElevation = document.getElementById('line-infowindow-elevation');
-        var lineInfoWindowPrice = document.getElementById('line-infowindow-price');
-        var lineInfoWindow;
-
-		var pointsPath;
-
-		var order = new Order();
-
-		//https://www.geodatasource.com/developers/javascript
-    	function calculateDistance(lat1, lon1, lat2, lon2, unit) {
-    		var radlat1 = Math.PI * lat1/180
-    		var radlat2 = Math.PI * lat2/180
-    		var theta = lon1-lon2
-    		var radtheta = Math.PI * theta/180
-    		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    		if (dist > 1) {
-    			dist = 1;
-    		}
-    		dist = Math.acos(dist)
-    		dist = dist * 180/Math.PI
-			dist = dist * 60 * 1.1515 // Miles
-			if (unit=="K") { dist = dist * 1.609344 } // Kilometers
-			if (unit=="N") { dist = dist * 0.8684 } // Nautical
-				return dist
-		}
-
-    	function refreshDistance() {
-    		if(startAddressMarker && endAddressMarker) {
-				var distance = calculateDistance(startAddressMarker.getPosition().lat(), startAddressMarker.getPosition().lng(), endAddressMarker.getPosition().lat(), endAddressMarker.getPosition().lng(), "K");
-
-				order.distance  = String(Math.round(distance * 100) / 100);
-
-				return distance;
-			}
-
-			return 0;
-		}
-
-		function refreshPrice(distance) {
-			if(startAddressMarker && endAddressMarker) {
-				var valmin = 4.2;
-				var valeur = 3.5;
-				var factor = 2;
-				var price = Math.pow(distance, factor) * (valmin / Math.pow(valeur, factor));
-
-				order.price = String(Math.round(price * 100) / 100);
-			}
-		}
-
-		function refreshElevation() {
-			if(startAddressMarker != null && endAddressMarker != null) {
-				var elevator = new google.maps.ElevationService;
-				var elevations;
-				var elevation = 0;
-
-				elevator.getElevationAlongPath({
-					'path': [startAddressMarker.getPosition(), endAddressMarker.getPosition()],
-					'samples': 40
-				}, function(elevations, status) {
-					if (status !== 'OK') {
-					// Show the error code inside the chartDiv.
-						console.log(status);
-						return;
-					}
-
-					for(var index = 1; index < elevations.length - 1; index++) {
-						if(index < elevations.length - 2) {
-							var diff = elevations[index].elevation - elevations[index - 1].elevation;
-							if (diff > 0) {
-								elevation += diff;
-							}
-						}
-					}
-
-					order.elevation = String(Math.round(elevation * 100) / 100);
-				});
-
-/*				elevator.getElevationForLocations({
-					'locations': [startAddressMarker.getPosition(), endAddressMarker.getPosition()]
-				}, function(results, status) {
-					if (status === 'OK') {
-						console.log(results);
-
-						if (results[0] && results[1]) {
-							var elevation = results[1].elevation - results[0].elevation;
-							
-							
-						} else {
-							console.log('No elevation found');
-						}
-					} else {
-						console.log(status);
-					}
-				});*/
-			}
-		}
-
-
-
-    	function refreshMapViewPort() {
-    		if (startAddressMarker && endAddressMarker) {
-    			var bounds = new google.maps.LatLngBounds(startAddressMarker.getPosition());
-    			bounds.extend(endAddressMarker.getPosition());
-    			map.fitBounds(bounds);
-    		} else if (startAddressMarker) {
-    			map.setZoom(17);
-				map.setCenter(startAddressMarker.getPosition());
-    		} else if (endAddressMarker) {
-    			map.setZoom(17);
-				map.setCenter(endAddressMarker.getPosition());
-    		}
-    	}
-
-    	function extractPlaceAddress(place) {
-    		if(place && place.address_components) {
-	    		return [
-					(place.address_components[0] && place.address_components[0].short_name || ''),
-					(place.address_components[1] && place.address_components[1].short_name || ''),
-					(place.address_components[2] && place.address_components[2].short_name || '')
-				].join(' ');
-    		}
-
-    		return "";
-    	}
-
-    	function refreshLine() {
-    		//lineInfoWindow.close();
-
-			if (startAddressMarker && endAddressMarker) {
-				if (pointsPath) {
-					pointsPath.setMap(null);
-					pointsPath= null;
-				}
-
-				var points = [
-					startAddressMarker.getPosition(),
-					endAddressMarker.getPosition()
-				];
-
-				pointsPath = new google.maps.Polyline({
-		          path: points,
-		          geodesic: true,
-		          strokeColor: '#3C0874',
-		          strokeOpacity: 1.0,
-		          strokeWeight: 2
-		        });
-
-   				pointsPath.setMap(map);
-
-   				var inBetween = google.maps.geometry.spherical.interpolate(startAddressMarker.getPosition(), endAddressMarker.getPosition(), 0.5);  
-   				lineInfoWindowContent.classList.remove("hidden");
-   				
-				lineInfoWindowPrice.textContent = order.price;
-				lineInfoWindowDistance.textContent = order.distance;
-				lineInfoWindowElevation.textContent = order.elevation;
-				fixedPriceContent.textContent = order.price;
-
-				lineInfoWindow.setPosition(inBetween);
-				lineInfoWindow.open(map);
-				//lineInfoWindowContent.setVisible(true);
-			}
-    	}
-
-    	function handleStartAddressAutocomplete() {
-    		if (startAddressInput.value == "") {
-    			if (startAddressMarker) {
-    				startAddressMarker.setMap(null);
-    				startAddressMarker = null;
-    			}
-
-    			if(window.sessionStorage.getItem("start-place")) {
-    				window.sessionStorage.removeItem("start-place");	
-    			}
-    			
-    			return;
-    		}
-
-    		autocompleteResult = handleAutocomplete("start-place", startAddressAutoComplete, startAddressMarker);
-    		startAddressMarker = autocompleteResult.marker;
-			order.startAddress = autocompleteResult.address;
-
-			var distance = refreshDistance();
-			refreshElevation();
-			refreshMapViewPort();
-			refreshPrice(distance);
-			refreshLine();
-    	}
-
-		function handleEndAddressAutocomplete() {
-    		if (endAddressInput.value == "") {
-    			if (endAddressMarker) {
-    				endAddressMarker.setMap(null);
-    				endAddressMarker = null;
-    			}
-
-    			if(window.sessionStorage.getItem("end-place")) {
-    				window.sessionStorage.removeItem("end-place");	
-    			}
-    			
-    			return;
-    		}
-
-			autocompleteResult = handleAutocomplete("end-place", endAddressAutocomplete, endAddressMarker);
-			endAddressMarker = autocompleteResult.marker;
-			order.startAddress = autocompleteResult.address;
-
-
-			var distance = refreshDistance();
-			refreshElevation();
-			refreshMapViewPort();
-			refreshPrice(distance);
-			refreshLine();
-		}
-
-    	function handleAutocomplete(storagekey, searchBox, marker, infowindow) {
-        	var place = searchBox.getPlace();
-        	if (!place || !place.geometry) {
-        		var previousplace = JSON.parse(window.sessionStorage.getItem(storagekey));
-
-				if (previousplace) {
-					if(!previousplace.geometry) {
-						console.log("no geometry");
-						window.sessionStorage.removeItem(storagekey);		
-						return;
-					}
-					place = previousplace;
-				} else {
-					console.log("no place");
-					return;
-				}
-			} else {
-				window.sessionStorage.setItem(storagekey, JSON.stringify(place));
-			}
-
-        	if (marker == null) {
-        		marker = new google.maps.Marker({position: place.geometry.location, map: map});
-        	} else {
-				marker.setVisible(false); 
-				marker.setPosition(place.geometry.location);
-				marker.setVisible(true);
-        	}
-
-			var address = '';
-			if (place.address_components) {
-				address = extractPlaceAddress(place.address_components);
-			}
-
-
-			
-/*			icon.src = place.icon;
-			name.textContent = place.name;
-			address.textContent = address;*/
-			//infowindow.open(map, marker);
-
-
-
-			return { marker: marker, address: address };
-       	}
-
-		function initMap() {
-			startAddressAutoComplete = new google.maps.places.Autocomplete(startAddressInput);
-			endAddressAutocomplete = new google.maps.places.Autocomplete(endAddressInput);
-
-			endAddressInfoWindow = new google.maps.InfoWindow();
-
-			map = new google.maps.Map(document.getElementById('map'), { zoom: 4, center: { lat: 42, lng: 2 }, disableDefaultUI: true });
-
-			// Departure autocomplete
-
-			startAddressAutoComplete.bindTo('bounds', map);
-			startAddressAutoComplete.setFields(['address_components', 'geometry', 'icon', 'name']);
-            startAddressAutoComplete.setTypes([]);
-			startAddressAutoComplete.setBounds(map.getBounds());
-
-	         startAddressAutoComplete.addListener('place_changed', handleStartAddressAutocomplete);
-
-			// Destination autocomplete
-
-			endAddressAutocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
-            endAddressAutocomplete.setTypes([]);
-	        endAddressAutocomplete.addListener('place_changed', handleEndAddressAutocomplete);
-
-	        lineInfoWindow = new google.maps.InfoWindow();
-   			lineInfoWindow.setContent(lineInfoWindowContent);
-
-   			addressesDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(addressesDiv);
-
-
-		}
-
-		function validatePerformanceType(radio) {
-			console.log(radio.value);
-
-			document.getElementById('objectdelivery-order-container').classList.add("hidden");
-			document.getElementById('course-order-container').classList.add("hidden");
-			document.getElementById('personalized-order-container').classList.add("hidden");
-			document.getElementById('backathome-order-container').classList.add("hidden");
-
-			if (radio.value == "objectdelivery") {
-				order.orderType = OrderType.objectdelivery;
-
-				document.getElementById('objectdelivery-order-container').classList.remove("hidden");
-			} else if (radio.value == "course") {
-				order.orderType = OrderType.course;
-
-				document.getElementById('course-order-container').classList.remove("hidden");
-			} else if (radio.value == "personalized") {
-				order.orderType = OrderType.personalized;
-
-				document.getElementById('personalized-order-container').classList.remove("hidden");
-			} else if (radio.value == "backathome") {
-				order.orderType = OrderType.backathome;
-
-				document.getElementById('backathome-order-container').classList.remove("hidden");
-			}
-		}
-
-		for(var i = 0; i < orderTypeRadio.length; i++) {
-			orderTypeRadio[i].onchange = function() {
-				validatePerformanceType(this);
-			}
-		}
-
-		window.onload = function() {
-			if (typeof(Storage) === "undefined") {
-				console.log("no storage");
-			}
-
-			handleStartAddressAutocomplete();
-			handleEndAddressAutocomplete();
-
-			google.maps.event.addListenerOnce(map, 'idle', function(){
-			    refreshMapViewPort();
-			});
-
-			for(var i = 0; i < orderTypeRadio.length; i++) {
-				if(orderTypeRadio[i].checked) {
-					validatePerformanceType(orderTypeRadio[i]);
-				}
-			}
-		};
-	</script>
+	<script type="text/javascript" src="common.js"></script>
 
 	<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=initMap">
     </script>
