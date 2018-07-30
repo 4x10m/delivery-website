@@ -1,4 +1,29 @@
-var OrderType = { "objectdelivery":1, "course":2, "backathome":3, "personalized":4, "default":0 };
+
+
+/*$('.form .stages label').click(function() {
+	var radioButtons = $('.form input:radio');
+	var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
+	selectedIndex = selectedIndex + 1;
+});
+
+$('.form button').click(function() {
+	var radioButtons = $('.form input:radio');
+	var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
+
+	selectedIndex = selectedIndex + 2;
+
+	$('.form input[type="radio"]:nth-of-type(' + selectedIndex + ')').prop('checked', true);
+
+	if (selectedIndex == 6) {
+		$('button').html('Submit');
+	}
+});*/
+
+
+
+		var OrderType = { "objectdelivery":1, "course":2, "backathome":3, "personalized":4, "default":0 };
+
+
 
 		class Order {
 			constructor() {
@@ -77,10 +102,7 @@ var OrderType = { "objectdelivery":1, "course":2, "backathome":3, "personalized"
 		var addressesDiv = document.getElementById('addresses');
 	var fixedPriceDiv = document.getElementById('fixed-price');
 		var fixedPriceContent = document.getElementById('fixed-price-content');
-		var weightCostValue = document.getElementById('weight-cost-value');
-		
 	
-
 		var startAddressAutoComplete;
 		var endAddressAutocomplete;
 
@@ -435,9 +457,9 @@ var OrderType = { "objectdelivery":1, "course":2, "backathome":3, "personalized"
 
 		function validatePerformanceType(radio) {
 			document.getElementById('objectdelivery-order-container').classList.add("hidden");
-			document.getElementById('course-order-container').classList.add("hidden");
+			//document.getElementById('course-order-container').classList.add("hidden");
 			document.getElementById('personalized-order-container').classList.add("hidden");
-			document.getElementById('backathome-order-container').classList.add("hidden");
+			//document.getElementById('backathome-order-container').classList.add("hidden");
 
 			if(radio && radio.value) {
 				console.log(radio.value);
@@ -475,7 +497,6 @@ var OrderType = { "objectdelivery":1, "course":2, "backathome":3, "personalized"
 				order.weight = 4;
 			}
 
-			weightCostValue.textContent = order.weightPrice;
 			order.refreshTotalPrice();
 		}
 

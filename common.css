@@ -7,6 +7,7 @@
 }
 
 html {
+
 	background: black;
 	color: white;
 
@@ -15,7 +16,20 @@ html {
     height: 100%;
 }
 
+.form-group {
+	margin-bottom: 5px !important;
+}
+
+.select-on-map-link {
+	font-size: 10px;
+	margin: 0px !important;
+	padding: 0px !important;
+	text-align: right;
+	vertical-align: top;
+}
+
 body {
+	font-family: FreeSerif, serif;
     height: 100%;
     padding: 0px;
     margin: 0px;
@@ -81,6 +95,10 @@ a {
 
 }
 
+#tip-unit {
+	line-height: 30px;
+}
+
 #fixed-price {
 	position: fixed;
 	bottom: 0px;
@@ -92,6 +110,10 @@ a {
 #validate-container {
 	text-align: center;
 	width: 100%;
+}
+
+input[name="choice4"] {
+	text-align: center;
 }
 
 #banner {

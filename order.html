@@ -11,6 +11,15 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="crossorigin=""/>
 
 	<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js" integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q==" crossorigin=""></script>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<!-- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
 </head>
 <body>
 	<div id="banner">
@@ -32,127 +41,200 @@
 
 				<h2>Type de prestation</h2>
 
-				<p><strong>Choisir le type de prestation</strong></p>
+				<p><em>Choisir le type de prestation</em></p>
 
 				<!-- Object Delivery-->
+				<div class="radio">
 
-				<input type="radio" id="choice1" name="order-type-radio" value="objectdelivery">
-				<label for="choice1">
-					<strong>
-						Livraison d'objets
-					</strong>
+					<label for="choice1" class="radio-inline">
+						<input type="radio" id="choice1" name="order-type-radio" value="objectdelivery">
 
-					<br>
+						<strong>
+							Livraison d'objets
+						</strong>
 
-					<em>
+						<br>
+
 						Comprend la récupération d'un objet dans un endroit spécifique et l'acheminement de celui-ci vers un autre endroit.
-					</em>
-				</label>
+					</label>
+				</div>
 
 				<div class="hidden" id="objectdelivery-order-container">
 					<!-- Adresses-->
 
-					<h3>Adresses</h3>
+					<input id="order-form-stage" type="radio" name="stage-input" />
+					<input id="client-form-stage" type="radio" name="stage-input" />
 
-					<div id="addresses">
-						<div id="start-address">
-							<span>Addresse de départ</span>
-							<input type="text" id="start-address-input" name="start-address" placeholder="Adresse de départ">
-							<a>Selectionner sur la carte</a>
-						</div>
-					
+					<div class="panels">
 
-						<div id="end-address">
-					    	<span>Addresse d'arrivée</span>
-							<input type="text" id="end-address-input" name="end-address" placeholder="Adresse d'arrivée">
-							<a>Selectionner sur la carte</a><br>
+						<div data-panel="order-form-stage">
+							<h2>Renseignement de la commande</h2>
+
+							<h3>Adresses</h3>
+
+							<hr>
+
+							<p><em>Entrer les adresses de livraisons</em></p>
+
+							<div id="addresses">
+								<div id="start-address" class="form-group form-group-sm">
+									<span for="start-address-input">Adresse de départ</span>
+									<input type="text" id="start-address-input" class="form-control" name="start-address" placeholder="Adresse de départ">
+									<a id="select-start-on-map-link" class="select-on-map-link help-block" href="">Selectionner sur la carte</a>
+								</div>
+
+								<div class="form-group form-group-sm">
+									<div id="end-address">
+										<span for="end-address-input">Adresse d'arrivée</span>
+										<input type="text" id="end-address-input" class="form-control" name="end-address" placeholder="Adresse d'arrivée">
+										<a class="select-on-map-link help-block" id="select-end-on-map-link" href="">Selectionner sur la carte</a>
+									</div>
+								</div>
+							</div>
+
+							<div id="map" style="height: 400px; width: 100%;"></div>
+
+							<div class="hidden" id="line-infowindow" style="color: black;">
+								Distance: <span id="line-infowindow-distance"></span>km<br>
+								Gain: <span id="line-infowindow-elevation"></span>m<br>
+								Tarif: <strong><span id="line-infowindow-price"></span>€</strong>
+							</div>
+
+							<h3>Poids</h3>
+
+							<hr>
+
+							<div class="row">
+
+								<div class="col-sm-3">
+									<label for="choice4" class="radio-inline">
+										<input type="radio" id="choice4" name="choice-weight" value="1">
+										<span class="radio-label">
+											0-1kg<br>
+											<strong>+0.5€</strong>
+										</span>
+									</label>
+								</div>
+
+								<div class="col-sm-3">
+									<label for="choice4" class="radio-inline">
+										<input type="radio" id="choice1" name="choice-weight" value="2">
+										<span class="radio-label">
+											1-5kg<br>
+											<strong>+1€</strong>
+										</span>
+									</label>
+								</div>
+
+								<div class="col-sm-3">
+									<label for="choice4" class="radio-inline">
+										<input type="radio" id="choice2" name="choice-weight" value="3">
+										<span class="radio-label">
+											5-15kg<br>
+											<strong>+2€</strong>
+										</span>
+									</label>
+								</div>
+
+								<div class="col-sm-3">
+									<label for="choice4" class="radio-inline">
+										<input type="radio" id="choice3" name="choice-weight" value="4">
+										<span class="radio-label">
+											+15kg<br>
+											<strong>+3€</strong>
+										</span>
+									</label>
+								</div>
+							</div>
+
+							<h3>Urgence</h3>
+
+							<hr>
+
+							<label for="urgency-checkbox" class="checkbox-inline">
+								<input type="checkbox" name="urgency-checkbox" class="checkbox">
+								Urgence <strong>+0.5€</strong>
+							</label>
+
+							<h3>Donation</h3>
+
+							<hr>
+
+							<div class="row">
+								<strong>
+									<div id="order-tip" class="form-group form-group-sm col-sm-3">
+										<span for="order-tip-input"></span>
+										<input type="number" id="order-tip-input" class="form-control" name="order-tip-input" step="0.01" placeholder="0">
+									</div><span id="tip-unit">€</span>
+								</strong>
+							</div>
 						</div>
 					</div>
 
-					<br>
+					<div data-panel="order-form-stage">
+						<h2>Renseignements personnel</h2>
 
-					<div id="map" style="height: 400px; width: 100%;"></div>
+						<input type="text" class="form-control" name="client-name-input" placeholder="Nom">
+					</div>
+				</div>
 
-					<div class="hidden" id="line-infowindow" style="color: black;">
-	     		 		Distance: <span id="line-infowindow-distance"></span>km<br>
-		      			Gain: <span id="line-infowindow-elevation"></span>m<br>
-		      			Tarif: <span id="line-infowindow-price"></span>€
-				    </div>
+				<!-- Course delivery -->
 
-					<h3>Poids</h3>
+<!-- 				<div class="radio">
+					<label for="choice2">
+						<input type="radio" id="choice2" name="order-type-radio" value="course">
+						Faire une course
+					</label>
+				</div>
 
-					<input type="radio" id="choice4" name="choice-weight" value="1">
-					<label for="choice4"><span class="radio-label">0-1kg<br>+0.5€</span></label>
+				<div class="hidden" id="course-order-container">Faire une course</div>
 
+				<div class="radio">
+					<label for="choice3" class="checkbox-inline">
+						<input type="radio" id="choice3" name="order-type-radio" value="backathome">
+						Retour de soirée<br>
+						Un coursier vous rejoint sur le lieu de votre soirée en vélo pliant et vous raccompagne dans votre propre voiture après avoir déposer son vélo dans votre coffre.
+					</label>
+				</div>
 
-					<input type="radio" id="choice1" name="choice-weight" value="2">
-					<label for="choice4"><span class="radio-label">1-5kg<br>+1€</span></label>
+				<div class="hidden" id="backathome-order-container">Retour de soirée</div> -->
 
+				<br>
 
-					<input type="radio" id="choice2" name="choice-weight" value="3">
-					<label for="choice4"><span class="radio-label">5-15kg<br>+2€</span></label>
+				<div id="validate-container">
+					<input id="next-stage-button" class="btn btn-default" type="button" value="Suivant">
 
-					<input type="radio" id="choice3" name="choice-weight" value="4">
-					<label for="choice4"><span class="radio-label">+15kg<br>+3€</span></label>
-
-					<br>
-
-					<label for="weight-cost">Tarif</label>
-					<span id="weight-cost-value"></span>
-
-					<h3>Urgence</h3>
-
-					<input type="checkbox" name="urgency-checkbox">
-					<label for="Urgence">Urgence +0.5€</label>
+					<!-- <input id="reset-button" type="reset" value="Remise à zéro"> -->
+					<input id="validate" class="btn btn-default" type="submit" value="Valider">
 				</div>
 
 				<br>
 
-				<!-- Course delivery -->
-
-				<input type="radio" id="choice2" name="order-type-radio" value="course">
-				<label for="choice2">Faire une course</label>
-
-				<div class="hidden" id="course-order-container">Faire une course</div>
-
-				<br>
-
-				<input type="radio" id="choice3" name="order-type-radio" value="backathome">
-				<label for="choice3">Retour de soirée<br>
-				Un coursier vous rejoint sur le lieu de votre soirée en vélo pliant et vous raccompagne dans votre propre voiture après avoir déposer son vélo dans votre coffre.</label>
-
-				<div class="hidden" id="backathome-order-container">Retour de soirée</div>
-
-				<br>
-
-				<input type="radio" id="choice4" name="order-type-radio" value="personalized">
-				<label for="choice4">Personalisée<br>
-				Pour toute demande personnalisée</label>
+				<label for="choice4" class="radio-inline">
+					<input type="radio" id="choice4" name="order-type-radio" value="personalized">
+					Personalisée<br>
+					Pour toute demande personnalisée
+				</label>
 
 				<div class="hidden" id="personalized-order-container">
 				</div>
 
 				<!-- Default choice -->
 				<input type="radio" id="order-type-default-choice" name="order-type-radio" value=""  style="display: none;" checked>
-
-				<div id="validate-container">
-					<input id="reset-button" type="reset" value="Remise à zéro">
-					<input id="validate" type="submit" value="Valider">
-				</div>
 			</form>
 		</div>
 
 
 	</div>
 
-	<div id="fixed-price">
+	<div id="fixed-price" class="label">
 		Prix total: 
-		<span id="fixed-price-content">0</span> €
+		<strong><span id="fixed-price-content" >0</span> €</strong>
 	</div>
 
 	<script type="text/javascript" src="common.js"></script>
 
 	<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=initMap">
-    </script>
+	</script>
 </body>
 </html>

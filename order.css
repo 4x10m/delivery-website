@@ -1,0 +1,8 @@
+.panels > div {
+	display: none;
+}
+
+#order-form-stage:checked ~ .panels [data-panel="order-form-stage"],
+#client-form-stage:checked ~ .panels [data-panel="client-form-stage"] {
+	display: block;
+}
