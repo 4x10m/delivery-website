@@ -1,8 +1,7 @@
-.panels > div {
+input#order-form-stage:not(:checked) ~ .panels [data-panel="order-form-stage"],
+input#client-form-stage:not(:checked) ~ .panels [data-panel="client-form-stage"] {
 	display: none;
 }
 
-#order-form-stage:checked ~ .panels [data-panel="order-form-stage"],
-#client-form-stage:checked ~ .panels [data-panel="client-form-stage"] {
-	display: block;
-}
+
+
