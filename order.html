@@ -37,7 +37,7 @@
 
 			<h1>Commander</h1>
 
-			<form name="order-form" action="http://localhost:8000/order.php" >
+			<form name="order-form" action="order-payment.html" >
 
 				<h2>Type de prestation</h2>
 
@@ -62,7 +62,7 @@
 				<div class="hidden" id="objectdelivery-order-container">
 					<!-- Adresses-->
 
-					<input id="order-form-stage" type="radio" name="stage-input" />
+					<input id="order-form-stage" type="radio" name="stage-input" checked/>
 					<input id="client-form-stage" type="radio" name="stage-input" />
 
 					<div class="panels">
@@ -171,9 +171,20 @@
 						</div>
 
 						<div data-panel="client-form-stage">
-							<h2>Renseignements personnel</h2>
+							<h2>Informations de facturation</h2>
 
-							<input type="text" class="form-control" name="client-name-input" placeholder="Nom">
+
+							<input type="text" class="form-control" name="client-name-input" placeholder="Nom et prénom">
+
+							<input type="text" class="form-control" name="client-name-input" placeholder="Adresse">
+
+							<input type="text" class="form-control" name="client-name-input" placeholder="Complément d'adresse">
+
+							<input type="text" class="form-control" name="client-name-input" placeholder="Addresse email">
+
+							<h2>Informations complémentaires</h2>
+
+							<input type="text" class="form-control" name="client-name-input" placeholder="Numéro de téléphone">
 						</div>
 					</div>
 
@@ -204,7 +215,9 @@
 					<input id="next-stage-button" class="btn btn-default" type="button" value="Suivant">
 
 					<!-- <input id="reset-button" type="reset" value="Remise à zéro"> -->
-					<input id="validate" class="btn btn-default" type="submit" value="Valider">
+
+					<div id="paypal-button"></div>
+					<input id="validate-button" class="btn btn-default" type="submit" value="Valider">
 				</div>
 
 				<br>
@@ -232,6 +245,9 @@
 	</div>
 
 	<script type="text/javascript" src="common.js"></script>
+
+	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+	<script type="text/javascript" src="paypal.js"></script>
 
 	<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=initMap">
 	</script>
