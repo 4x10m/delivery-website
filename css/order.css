@@ -1,8 +1,7 @@
 input#order-form-stage:not(:checked) ~ .panels [data-panel="order-form-stage"],
 input#client-form-stage:not(:checked) ~ .panels [data-panel="client-form-stage"],
-input#order-form-stage:not(:checked) ~ div #next-stage-button,
-input#client-form-stage:not(:checked) ~ div #validate-button {
+input#validation-form-stage:not(:checked) ~ .panels [data-panel="validation-form-stage"],
+input#validation-form-stage:not(:checked) ~ div #validate-button,
+input#validation-form-stage:checked ~ div #next-stage-button {
 	display: none;
 }
-
-

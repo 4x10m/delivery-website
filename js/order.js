@@ -7,18 +7,6 @@ class OrderWaypoint {
 	}
 }
 
-function TotalPrice() {
-	var _totalPrice = 0;
-
-	this.totalPrice = function() {
-		return _totalPrice;
-	}
-
-	this.setTotalPrice = function(value) {
-		_totalPrice = value;
-	}
-}
-
 class Order {
 	constructor() {
 		this.orderType = 0;
@@ -28,7 +16,6 @@ class Order {
 		this._weight =  0;
 		this._urgency =  false;
 		this._donation = 0;
-		this._totalPrice = new TotalPrice();
 
 
 		this.elevation =  0;
@@ -66,7 +53,7 @@ class Order {
 	set weight(value) {
 		this._weight = value;
 
-		this.refreshTotalPrice();
+		this.refreshUI();
 	}
 
 	get weightPrice() {
@@ -86,7 +73,7 @@ class Order {
 	set urgency(value) {
 		this._urgency = value;
 
-		this.refreshTotalPrice();
+		this.refreshUI();
 	}
 
 	get urgency() {
@@ -94,17 +81,28 @@ class Order {
 	}
 
 	set donation(value) {
-		this._donation = value;
+		if (value) {
+			this._donation = value;
 
-		this.refreshTotalPrice();
+			this.refreshUI();
+		}
 	}
 
 	get donation() {
 		return this._donation;
 	}
 
-	totalPrice() {
-		return this._totalPrice.totalPrice();
+	get totalPrice() {
+		var price = 0;
+		price += this.distancePrice;
+		price += this.weightPrice;
+		price += this.donation;
+
+		if (this._urgency) {
+			price += 0.5;
+		}
+		
+		return Math.round(price * 100) / 100;
 	}
 
 	//https://www.geodatasource.com/developers/javascript
@@ -145,28 +143,13 @@ class Order {
 		this.distancePrice = price;
 	}
 
-	refreshTotalPrice() {
-		var price = 0;
-		price += this.distancePrice;
-		price += this.weightPrice;
-		price += this.donation;
-
-		if (this._urgency) {
-			price += 0.5;
-		}
-		
-		this._totalPrice.setTotalPrice(Math.round(price * 100) / 100);
-
-		this.refreshUI();
-	}
-
 	refreshElevation() {
 		var _this = this;
 
 		var elevation = Map.getElevation(function(elevation) {
 			_this.elevation = elevation;
 
-			_this.refreshTotalPrice();
+			_this.refreshUI();
 		});
 	}
 }

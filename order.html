@@ -57,6 +57,7 @@
 				<div class="hidden" id="objectdelivery-order-container">
 					<input id="order-form-stage" type="radio" name="stage-input" checked/>
 					<input id="client-form-stage" type="radio" name="stage-input" />
+					<input id="validation-form-stage" type="radio" name="stage-input" />
 
 					<div class="panels">
 						<!-- Order informations -->
@@ -193,6 +194,75 @@
 
 							<input type="text" class="form-control" name="client-number-input" placeholder="Numéro de téléphone">
 						</div>
+
+						<div data-panel="validation-form-stage">
+							<h1>Recapitulatif de la commande</h1>
+							<table>
+								<tr>
+									<td>Type de commande</td>
+									<td id="order-type-field"></td>
+								</tr>
+								<tr>
+									<td>Addresse de départ</td>
+									<td id="start-address-field"></td>
+								</tr>
+								<tr>
+									<td>Addresse de d'arrivée</td>
+									<td id="end-address-field"></td>
+								</tr>
+								<tr>
+									<td>Distance</td>
+									<td id="distance-field"></td>
+								</tr>
+								<tr>
+									<td>Gain vertical</td>
+									<td id="elevation-field"></td>
+								</tr>
+								<tr>
+									<td>Prix de la distance</td>
+									<td id="distance-price-field"></td>
+								</tr>
+								<tr>
+									<td>Poids</td>
+									<td id="weight-field"></td>
+								</tr>
+								<tr>
+									<td>Urgence</td>
+									<td id="urgency-field"></td>
+								</tr>
+								<tr>
+									<td>Donation</td>
+									<td id="order-tip-field"></td>
+								</tr>
+								<tr>
+									<td>Nom client</td>
+									<td id="client-name-field"></td>
+								</tr>
+								<tr>
+									<td>Adresse</td>
+									<td id="client-address-field"></td>
+								</tr>
+								<tr>
+									<td>Complément d'adresse</td>
+									<td id="client-address-complement-field"></td>
+								</tr>
+								<tr>
+									<td>Adresse email</td>
+									<td id="client-mail-field"></td>
+								</tr>
+								<tr>
+									<td>Numéro de téléphone</td>
+									<td id="client-number-field"></td>
+								</tr>
+								<tr>
+									<td>Prix total</td>
+									<td id="order-price-field"></td>
+								</tr>
+							</table>
+
+							Procéder au paiements pour valider la commande
+							<div id="paypal-button"></div>
+						</div>
 					</div>
 
 				<br>
@@ -231,5 +301,7 @@
 	<script type="text/javascript" src="js/page/order-page.js"></script>
 	<script type="text/javascript" src="js/map.js"></script>
 
+	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+	<script type="text/javascript" src="paypal.js"></script>
 </body>
 </html>

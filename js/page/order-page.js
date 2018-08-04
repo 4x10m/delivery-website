@@ -5,6 +5,12 @@ var orderTypeRadio = document.forms['order-form'].elements['order-type-radio'];
 var weightRadio = document.forms['order-form'].elements['choice-weight'];
 var urgencyCheckBox = document.forms['order-form'].elements['urgency-checkbox'];
 var orderTipInput = document.forms['order-form'].elements['order-tip-input'];
+
+var clientNameInput = document.forms['order-form'].elements['client-name-input'];
+var clientAddressInput = document.forms['order-form'].elements['client-address-input'];
+var clientAddressComplementInput = document.forms['order-form'].elements['client-address-complement-input'];
+var clientMailInput = document.forms['order-form'].elements['client-mail-input'];
+var clientNumberInput = document.forms['order-form'].elements['client-number-input'];
  
 var startAddressInput = document.forms['order-form'].elements['start-address'];
 var orderDistance = document.getElementById('order-distance');
@@ -29,13 +35,61 @@ var lineInfoWindow;
 var nextStageButton = document.forms['order-form'].elements["next-stage-button"];
 var clientStageRadio = document.forms['order-form'].elements["client-form-stage"];
 var orderStageRadio = document.forms['order-form'].elements["order-form-stage"];
+var validationStageRadio = document.forms['order-form'].elements["validation-form-stage"];
 
 var objectDeliveryOrderContainer = document.getElementById('objectdelivery-order-container');
 var personalizedOrderContainer = document.getElementById('personalized-order-container');
 
 var pointsPath;
 
-var order = null;
+function refreshSummary() {
+	// Retrieve order details from url arguments and inject them into Fields
+
+	var orderTypeField = document.getElementById('order-type-field');
+	var orderStartAddressField = document.getElementById('start-address-field');
+	var orderEndAddressField = document.getElementById('end-address-field');
+	var orderDistanceField = document.getElementById('distance-field');
+	var orderElevationField = document.getElementById('elevation-field');
+	var orderDistancePriceField = document.getElementById('distance-price-field');
+	var orderWeightField = document.getElementById('weight-field');
+	var orderUrgencyField = document.getElementById('urgency-field');
+	var orderTipField = document.getElementById('order-tip-field');
+
+	var clientNameField = document.getElementById('client-name-field');
+	var clientAddressField = document.getElementById('client-address-field');
+	var clientAddressComplementField = document.getElementById('client-address-complement-field');
+	var clientMailField = document.getElementById('client-mail-field');
+	var clientNumberField = document.getElementById('client-number-field');
+
+	var orderPriceField = document.getElementById('order-price-field');
+
+	orderTypeField.textContent = orderTypeRadio.value;
+	orderStartAddressField.textContent = startAddressInput.value;
+	orderEndAddressField.textContent = endAddressInput.value;
+	orderDistanceField.textContent = order.distance;
+	orderElevationField.textContent = order.elevation;
+	orderDistancePriceField.textContent = order.distancePrice;
+	orderWeightField.textContent = weightRadio.value;
+	orderUrgencyField.textContent = urgencyCheckBox.checked;
+	orderTipField.textContent = orderTipInput.value;
+
+	clientNameField.textContent = clientNameInput.value;
+	clientAddressField.textContent = clientAddressInput.value;
+	clientAddressComplementField.textContent = clientAddressComplementInput.value;
+	clientMailField.textContent = clientMailInput.value;
+	clientNumberField.textContent = clientNumberInput.value;
+
+	orderPriceField.textContent = order.totalPrice;
+}
+
+	order = new Order();
+	order.refreshUI = function() {
+		lineInfoWindowPrice.textContent = String(Math.round(order.distancePrice * 100) / 100);
+	    lineInfoWindowDistance.textContent = String(Math.round(order.distance * 100) / 100);
+	    lineInfoWindowElevation.textContent = String(Math.round(order.elevation * 100) / 100);
+	    fixedPriceContent.textContent = String(Math.round(order.totalPrice * 100) / 100);
+	    refreshSummary();
+	};
 var googleMap = null;
 
 function validateOrderType() {
@@ -111,6 +165,7 @@ function validateWeight() {
 	}
 }
 
+
 urgencyCheckBox.addEventListener("change", function() {
 	order.urgency = this.checked;
 });
@@ -133,7 +188,12 @@ orderTipInput.addEventListener("change", function() {
 });
 
 nextStageButton.addEventListener("click", function() {
-	clientStageRadio.checked = true
+	if (orderStageRadio.checked) {
+		clientStageRadio.checked = true;
+	} else if (clientStageRadio.checked) {
+		refreshSummary();
+		validationStageRadio.checked = true;
+	}
 });
 
 orderForm.addEventListener("reset", function() {
@@ -145,13 +205,7 @@ window.addEventListener("load", function() {
 		console.log("no storage");
 	}
 
-	order = new Order();
-	order.refreshUI = function() {
-		lineInfoWindowPrice.textContent = String(Math.round(order.distancePrice * 100) / 100);
-	    lineInfoWindowDistance.textContent = String(Math.round(order.distance * 100) / 100);
-	    lineInfoWindowElevation.textContent = String(Math.round(order.elevation * 100) / 100);
-	    fixedPriceContent.textContent = String(Math.round(order.totalPrice() * 100) / 100);
-	};
+
 
 	googleMap = new Map(map, order, startAddressInput, endAddressInput, lineInfoWindowContent);
 	googleMap.handleStartAddressAutocomplete();
@@ -167,4 +221,8 @@ window.addEventListener("load", function() {
 
 	order.urgency = urgencyCheckBox.checked;
 	order.donation = parseFloat(orderTipInput.value);
+
+	refreshSummary();
 });
+
+
