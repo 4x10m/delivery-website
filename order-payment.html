@@ -1,0 +1,71 @@
+<html>
+<head>
+	<meta charset="utf8">
+	</head>
+	<body>
+		<h1>Recapitulatif de la commande</h1>
+
+		<form name="order-form">
+		<table>
+			<tr>
+				<td>Type de commande</td>
+				<td id="order-type-radio"></td>
+			</tr>
+			<tr>
+				<td>Addresse de départ</td>
+				<td id="start-address"></td>
+			</tr>
+			<tr>
+				<td>Addresse de d'arrivée</td>
+				<td id="end-address"></td>
+			</tr>
+			<tr>
+				<td>Addresse de Poids</td>
+				<td id="choice-weight"></td>
+			</tr>
+			<tr>
+				<td>Urgence</td>
+				<td id="urgency-checkbox"></td>
+			</tr>
+			<tr>
+				<td>Donation</td>
+				<td id="order-tip-input"></td>
+			</tr>
+			<tr>
+				<td>Prix</td>
+				<td id=""></td>
+			</tr>
+			<tr>
+				<td>Nom client</td>
+				<td id="client-name-input"></td>
+			</tr>
+			<tr>
+				<td>Adresse</td>
+				<td id="client-address-input"></td>
+			</tr>
+			<tr>
+				<td>Complément d'adresse</td>
+				<td id="client-address-complement-input"></td>
+			</tr>
+			<tr>
+				<td>Adresse email</td>
+				<td id="client-mail-input"></td>
+			</tr>
+			<tr>
+				<td>Numéro de téléphone</td>
+				<td id="client-number-input"></td>
+			</tr>
+		</table>
+
+		Procéder au paiements pour valider la commande
+		<div id="paypal-button"></div>
+		</form>
+
+		<script language="javascript" src="js/page/order-payment-page.js">
+			
+		</script>
+
+		<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+		<script type="text/javascript" src="paypal.js"></script>
+	</body>
+</html>

@@ -1,5 +1,6 @@
-
-.gm-style-iw + div {display: none;}
+.gm-style-iw + div {
+	display: none;
+}
 
 .radio-label {
 	display: inline-block;
@@ -112,12 +113,17 @@ a {
 	width: 100%;
 }
 
+#map {
+	height: 400px;
+	width: 100%;
+}
+
 input[name="choice4"] {
 	text-align: center;
 }
 
 #banner {
-	background-image: url("banner.jpg");
+	background-image: url("../img/banner.jpg");
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;

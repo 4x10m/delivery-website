@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Tours2Roues - Commander</title>
 
 	<meta charset="utf8">
 
-	<link rel="stylesheet" type="text/css" href="common.css">
-	<link rel="stylesheet" type="text/css" href="order.css">
-
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="crossorigin=""/>
-
-	<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js" integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q==" crossorigin=""></script>
+	<link rel="stylesheet" type="text/css" href="css/common.css">
+	<link rel="stylesheet" type="text/css" href="css/order.css">
 
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -18,15 +14,14 @@
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-	<!-- Latest compiled and minified JavaScript -->
-	<!-- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>
 </head>
 <body>
 	<div id="banner">
 		<div id="cardview">
 			<div id="header">
 				<div id="header-helper">
-					<img id="logo" src="logo.PNG">
+					<img id="logo" src="img/logo.png">
 
 					<div id="navigation">
 						<a href="about.html">A propos</a>
@@ -37,17 +32,17 @@
 
 			<h1>Commander</h1>
 
-			<form name="order-form" action="order-payment.html" >
+			<form name="order-form" action="order-payment.html" method="post" >
 
 				<h2>Type de prestation</h2>
 
 				<p><em>Choisir le type de prestation</em></p>
 
-				<!-- Object Delivery-->
-				<div class="radio">
+				<!-- Object Delivery -->
 
-					<label for="choice1" class="radio-inline">
-						<input type="radio" id="choice1" name="order-type-radio" value="objectdelivery">
+				<div class="radio">
+					<label for="order-type-radio" class="radio-inline">
+						<input type="radio" name="order-type-radio" value="objectdelivery">
 
 						<strong>
 							Livraison d'objets
@@ -60,15 +55,16 @@
 				</div>
 
 				<div class="hidden" id="objectdelivery-order-container">
-					<!-- Adresses-->
-
 					<input id="order-form-stage" type="radio" name="stage-input" checked/>
 					<input id="client-form-stage" type="radio" name="stage-input" />
 
 					<div class="panels">
+						<!-- Order informations -->
 
 						<div data-panel="order-form-stage">
 							<h2>Renseignement de la commande</h2>
+
+							<!-- Adresses -->
 
 							<h3>Adresses</h3>
 
@@ -92,7 +88,7 @@
 								</div>
 							</div>
 
-							<div id="map" style="height: 400px; width: 100%;"></div>
+							<div id="map"></div>
 
 							<div class="hidden" id="line-infowindow" style="color: black;">
 								Distance: <span id="line-infowindow-distance"></span>km<br>
@@ -100,9 +96,13 @@
 								Tarif: <strong><span id="line-infowindow-price"></span>€</strong>
 							</div>
 
+							<!-- Poids -->
+
 							<h3>Poids</h3>
 
 							<hr>
+
+							<p><em>Renseigner le poids du ou des objets à transporter</em></p>
 
 							<div class="row">
 
@@ -147,18 +147,26 @@
 								</div>
 							</div>
 
+							<!-- Urgence -->
+
 							<h3>Urgence</h3>
 
 							<hr>
+
+							<p><em>Renseigner le charactère urgent de la commande</em></p>
 
 							<label for="urgency-checkbox" class="checkbox-inline">
 								<input type="checkbox" name="urgency-checkbox" class="checkbox">
 								Urgence <strong>+0.5€</strong>
 							</label>
 
+							<!-- Donation -->
+
 							<h3>Donation</h3>
 
 							<hr>
+
+							<p><em>Montant libre</em></p>
 
 							<div class="row">
 								<strong>
@@ -173,50 +181,25 @@
 						<div data-panel="client-form-stage">
 							<h2>Informations de facturation</h2>
 
-
 							<input type="text" class="form-control" name="client-name-input" placeholder="Nom et prénom">
 
-							<input type="text" class="form-control" name="client-name-input" placeholder="Adresse">
+							<input type="text" class="form-control" name="client-address-input" placeholder="Adresse">
 
-							<input type="text" class="form-control" name="client-name-input" placeholder="Complément d'adresse">
+							<input type="text" class="form-control" name="client-address-complement-input" placeholder="Complément d'adresse">
 
-							<input type="text" class="form-control" name="client-name-input" placeholder="Addresse email">
+							<input type="text" class="form-control" name="client-mail-input" placeholder="Addresse email">
 
 							<h2>Informations complémentaires</h2>
 
-							<input type="text" class="form-control" name="client-name-input" placeholder="Numéro de téléphone">
+							<input type="text" class="form-control" name="client-number-input" placeholder="Numéro de téléphone">
 						</div>
 					</div>
-
-					<!-- Course delivery -->
-
-<!-- 				<div class="radio">
-					<label for="choice2">
-						<input type="radio" id="choice2" name="order-type-radio" value="course">
-						Faire une course
-					</label>
-				</div>
-
-				<div class="hidden" id="course-order-container">Faire une course</div>
-
-				<div class="radio">
-					<label for="choice3" class="checkbox-inline">
-						<input type="radio" id="choice3" name="order-type-radio" value="backathome">
-						Retour de soirée<br>
-						Un coursier vous rejoint sur le lieu de votre soirée en vélo pliant et vous raccompagne dans votre propre voiture après avoir déposer son vélo dans votre coffre.
-					</label>
-				</div>
-
-				<div class="hidden" id="backathome-order-container">Retour de soirée</div> -->
 
 				<br>
 
 				<div id="validate-container">
 					<input id="next-stage-button" class="btn btn-default" type="button" value="Suivant">
-
 					<!-- <input id="reset-button" type="reset" value="Remise à zéro"> -->
-
-					<div id="paypal-button"></div>
 					<input id="validate-button" class="btn btn-default" type="submit" value="Valider">
 				</div>
 
@@ -244,12 +227,9 @@
 		<strong><span id="fixed-price-content" >0</span> €</strong>
 	</div>
 
-	<script type="text/javascript" src="common.js"></script>
+	<script type="text/javascript" src="js/order.js"></script>
+	<script type="text/javascript" src="js/page/order-page.js"></script>
+	<script type="text/javascript" src="js/map.js"></script>
 
-	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-	<script type="text/javascript" src="paypal.js"></script>
-
-	<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=initMap">
-	</script>
 </body>
 </html>
