@@ -4,6 +4,7 @@ var orderForm = document.forms['order-form'];
 var orderTypeRadio = document.forms['order-form'].elements['order-type-radio'];
 var weightRadio = document.forms['order-form'].elements['choice-weight'];
 var urgencyCheckBox = document.forms['order-form'].elements['urgency-checkbox'];
+var orderTipInput = document.forms['order-form'].elements['order-tip-input'];
  
 var startAddressInput = document.forms['order-form'].elements['start-address'];
 var orderDistance = document.getElementById('order-distance');
@@ -127,6 +128,10 @@ weightRadio.forEach(function(radio) {
 	});
 });
 
+orderTipInput.addEventListener("change", function() {
+	order.donation = parseFloat(orderTipInput.value);
+});
+
 nextStageButton.addEventListener("click", function() {
 	clientStageRadio.checked = true
 });
@@ -160,5 +165,6 @@ window.addEventListener("load", function() {
 	validateOrderType();
 	validateWeight();
 
-	order.urgency = this.checked;
+	order.urgency = urgencyCheckBox.checked;
+	order.donation = parseFloat(orderTipInput.value);
 });

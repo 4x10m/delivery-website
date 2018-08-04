@@ -26,7 +26,7 @@ class Order {
 		this._startWaypoint =  null;
 		this._endWaypoint =  null;
 		this._weight =  0;
-		this._urgency =  null;
+		this._urgency =  false;
 		this._donation = 0;
 		this._totalPrice = new TotalPrice();
 
