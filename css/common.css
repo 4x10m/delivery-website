@@ -129,7 +129,9 @@ input[name="choice4"] {
 	background-size: cover;
 	background-attachment: fixed;
 	min-height: 100%;
-	width: : 100%;
+	width: 100%;
+	padding-top: 30px;
+	padding-bottom: 30px;
 }
 
 #cardview {

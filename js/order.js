@@ -5,6 +5,15 @@ class OrderWaypoint {
 		this.address = address;
 		this.position = position;
 	}
+
+	get isValid() {
+		var validity = false;
+		validity |= this.address != "";
+		validity &= this.position != null;
+
+		return validity;
+
+	}
 }
 
 class Order {

@@ -11,7 +11,8 @@ var clientAddressInput = document.forms['order-form'].elements['client-address-i
 var clientAddressComplementInput = document.forms['order-form'].elements['client-address-complement-input'];
 var clientMailInput = document.forms['order-form'].elements['client-mail-input'];
 var clientNumberInput = document.forms['order-form'].elements['client-number-input'];
- 
+var validateButton = document.forms['order-form'].elements['validate-button']; 
+
 var startAddressInput = document.forms['order-form'].elements['start-address'];
 var orderDistance = document.getElementById('order-distance');
 var orderElevation = document.getElementById('order-elevation');
@@ -33,6 +34,7 @@ var lineInfoWindowPrice = document.getElementById('line-infowindow-price');
 var lineInfoWindow;
 
 var nextStageButton = document.forms['order-form'].elements["next-stage-button"];
+var backStageButton = document.forms['order-form'].elements["back-stage-button"];
 var clientStageRadio = document.forms['order-form'].elements["client-form-stage"];
 var orderStageRadio = document.forms['order-form'].elements["order-form-stage"];
 var validationStageRadio = document.forms['order-form'].elements["validation-form-stage"];
@@ -189,15 +191,72 @@ orderTipInput.addEventListener("change", function() {
 
 nextStageButton.addEventListener("click", function() {
 	if (orderStageRadio.checked) {
+		if (order.startWaypoint == null 
+			|| !order.startWaypoint.isValid) {
+			startAddressInput.setCustomValidity("Veuillez selectionner le lieu de retrait");
+			startAddressInput.reportValidity();
+			return;
+		}
+
+		if (order.endWaypoint == null 
+			|| !order.endWaypoint.isValid) {
+			endAddressInput.setCustomValidity("Veuillez selectionner le lieu de dépose");
+			endAddressInput.reportValidity();
+			return;
+		}
+
+		if (!weightRadio[0].reportValidity()) {
+			return;
+		}
+
 		clientStageRadio.checked = true;
 	} else if (clientStageRadio.checked) {
+		if (!clientNameInput.reportValidity()
+			|| !clientAddressInput.reportValidity()
+			|| !clientMailInput.reportValidity()
+			|| !clientNumberInput.reportValidity()) {
+			return;
+		}
+
 		refreshSummary();
 		validationStageRadio.checked = true;
 	}
 });
 
+backStageButton.addEventListener("click", function() {
+	if (validationStageRadio.checked) {
+		clientStageRadio.checked = true;
+	} else if (clientStageRadio.checked) {
+		orderStageRadio.checked = true;
+	}
+})
+
+/*function checkAddressValidity() {
+
+}*/
+
+//startAddressInput.addEventListener("change", checkAddressValidity);
+//startAddressInput.addEventListener("input", checkAddressValidity);
+
+
 orderForm.addEventListener("reset", function() {
 	validateOrderType(null);
+});
+
+orderForm.addEventListener("submit", function(e) {
+	console.log("yop");
+	  if (e.isDefaultPrevented()) {
+	  	console.log("error");
+    // handle the invalid form...
+  } else {
+  	console.log("no error");
+    // everything looks good!
+  }
+});
+
+
+orderForm.addEventListener("invalid", function(e) {
+	console.log("yop");
 });
 
 window.addEventListener("load", function() {

@@ -32,7 +32,7 @@
 
 			<h1>Commander</h1>
 
-			<form name="order-form" action="order-payment.html" method="post" >
+			<form name="order-form" action="order-payment.html" method="post" class="needs-validation">
 
 				<h2>Type de prestation</h2>
 
@@ -75,15 +75,15 @@
 
 							<div id="addresses">
 								<div id="start-address" class="form-group form-group-sm">
-									<span for="start-address-input">Adresse de départ</span>
-									<input type="text" id="start-address-input" class="form-control" name="start-address" placeholder="Adresse de départ">
+									<span for="start-address-input">Lieu de retrait</span>
+									<input type="text" id="start-address-input" class="form-control" name="start-address" placeholder="Adresse de départ" required>
 									<a id="select-start-on-map-link" class="select-on-map-link help-block" href="">Selectionner sur la carte</a>
 								</div>
 
 								<div class="form-group form-group-sm">
 									<div id="end-address">
-										<span for="end-address-input">Adresse d'arrivée</span>
-										<input type="text" id="end-address-input" class="form-control" name="end-address" placeholder="Adresse d'arrivée">
+										<span for="end-address-input">Lieu de dépose</span>
+										<input type="text" id="end-address-input" class="form-control" name="end-address" placeholder="Adresse d'arrivée" required>
 										<a class="select-on-map-link help-block" id="select-end-on-map-link" href="">Selectionner sur la carte</a>
 									</div>
 								</div>
@@ -109,7 +109,7 @@
 
 								<div class="col-sm-3">
 									<label for="choice4" class="radio-inline">
-										<input type="radio" id="choice4" name="choice-weight" value="1">
+										<input type="radio" id="choice4" name="choice-weight" value="1" required>
 										<span class="radio-label">
 											0-1kg<br>
 											<strong>+0.5€</strong>
@@ -119,8 +119,8 @@
 
 								<div class="col-sm-3">
 									<label for="choice4" class="radio-inline">
-										<input type="radio" id="choice1" name="choice-weight" value="2">
-										<span class="radio-label">
+										<input type="radio" id="choice1" name="choice-weight" value="2" required>
+										<span class="radio-label" >
 											1-5kg<br>
 											<strong>+1€</strong>
 										</span>
@@ -129,8 +129,8 @@
 
 								<div class="col-sm-3">
 									<label for="choice4" class="radio-inline">
-										<input type="radio" id="choice2" name="choice-weight" value="3">
-										<span class="radio-label">
+										<input type="radio" id="choice2" name="choice-weight" value="3" required>
+										<span class="radio-label" >
 											5-15kg<br>
 											<strong>+2€</strong>
 										</span>
@@ -139,8 +139,8 @@
 
 								<div class="col-sm-3">
 									<label for="choice4" class="radio-inline">
-										<input type="radio" id="choice3" name="choice-weight" value="4">
-										<span class="radio-label">
+										<input type="radio" id="choice3" name="choice-weight" value="4" required>
+										<span class="radio-label" >
 											+15kg<br>
 											<strong>+3€</strong>
 										</span>
@@ -182,21 +182,22 @@
 						<div data-panel="client-form-stage">
 							<h2>Informations de facturation</h2>
 
-							<input type="text" class="form-control" name="client-name-input" placeholder="Nom et prénom">
+							<input type="text" class="form-control" name="client-name-input" placeholder="Nom et prénom" required>
 
-							<input type="text" class="form-control" name="client-address-input" placeholder="Adresse">
+							<input type="text" class="form-control" name="client-address-input" placeholder="Adresse" required>
 
 							<input type="text" class="form-control" name="client-address-complement-input" placeholder="Complément d'adresse">
 
-							<input type="text" class="form-control" name="client-mail-input" placeholder="Addresse email">
+							<input type="text" class="form-control" name="client-mail-input" placeholder="Addresse email" required>
 
 							<h2>Informations complémentaires</h2>
 
-							<input type="text" class="form-control" name="client-number-input" placeholder="Numéro de téléphone">
+							<input type="text" class="form-control" name="client-number-input" placeholder="Numéro de téléphone" required>
 						</div>
 
 						<div data-panel="validation-form-stage">
 							<h1>Recapitulatif de la commande</h1>
+							<hr>
 							<table>
 								<tr>
 									<td>Type de commande</td>
@@ -259,18 +260,19 @@
 									<td id="order-price-field"></td>
 								</tr>
 							</table>
-
-							Procéder au paiements pour valider la commande
+							 <hr>
+							<p>Payer maintenant ou plus tard</p>
 							<div id="paypal-button"></div>
+							
 						</div>
 					</div>
 
-				<br>
-
 				<div id="validate-container">
+					<hr>
+					<input id="back-stage-button" class="btn btn-default" type="button" value="Retour">
 					<input id="next-stage-button" class="btn btn-default" type="button" value="Suivant">
 					<!-- <input id="reset-button" type="reset" value="Remise à zéro"> -->
-					<input id="validate-button" class="btn btn-default" type="submit" value="Valider">
+					<input id="validate-button" class="btn btn-default" type="submit"  value="Valider">
 				</div>
 
 				<br>
@@ -302,6 +304,6 @@
 	<script type="text/javascript" src="js/map.js"></script>
 
 	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-	<script type="text/javascript" src="paypal.js"></script>
+	<script type="text/javascript" src="js/paypal.js"></script>
 </body>
 </html>

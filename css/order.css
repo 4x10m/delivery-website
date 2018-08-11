@@ -1,3 +1,22 @@
+table {
+	margin: auto;
+	width: 70%;
+}
+
+table, td, tr {
+	border-width: 1px;
+	border-style: solid;
+}
+
+td {
+	padding: 5px 0px 10px 5px !important;
+	text-align: left;
+}
+
+.panels [data-panel="validation-form-stage"] {
+	text-align: center;
+}
+
 input#order-form-stage:not(:checked) ~ .panels [data-panel="order-form-stage"],
 input#client-form-stage:not(:checked) ~ .panels [data-panel="client-form-stage"],
 input#validation-form-stage:not(:checked) ~ .panels [data-panel="validation-form-stage"],

@@ -11,6 +11,9 @@ class Map {
         this.startAddressMarker = null;
         this.endAddressMarker = null;
 
+        this.validStartAddress = false;
+        this.validEndAddress = false;
+
         this.pointsPath = null;
 
         this.googleMap = new google.maps.Map(this.map,
@@ -120,6 +123,7 @@ class Map {
             if (autocompleteResult) {
                 Map.self.startAddressMarker = autocompleteResult.marker;
                 Map.self.order.startWaypoint = new OrderWaypoint(autocompleteResult.address, { latitude: autocompleteResult.location.lat, longitude: autocompleteResult.location.lng });
+                Map.self.order.validStartAddress = true;
             }
         });
     }
@@ -129,6 +133,7 @@ class Map {
             if (autocompleteResult) {
                 Map.self.endAddressMarker = autocompleteResult.marker;
                 Map.self.order.endWaypoint = new OrderWaypoint(autocompleteResult.address, { latitude: autocompleteResult.location.lat, longitude: autocompleteResult.location.lng });
+                Map.self.order.validEndAddress = true;
             }    
         });
     }
