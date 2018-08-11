@@ -40,10 +40,12 @@
 
 				<!-- Object Delivery -->
 
-				<div class="radio">
-					<label for="order-type-radio" class="radio-inline">
-						<input type="radio" name="order-type-radio" value="objectdelivery">
-
+				
+				<input  type="radio" name="order-type-radio" value="objectdelivery">
+ 				<!-- <div class="radio"> -->
+					<!-- <label  for="order-type-radio" > -->
+						
+<span id="order-type-radio-label" class="radio-label" >
 						<strong>
 							Livraison d'objets
 						</strong>
@@ -51,8 +53,11 @@
 						<br>
 
 						Comprend la récupération d'un objet dans un endroit spécifique et l'acheminement de celui-ci vers un autre endroit.
-					</label>
-				</div>
+						</span>
+					<!-- </label> -->
+					
+				<!-- </div> -->
+			
 
 				<div class="hidden" id="objectdelivery-order-container">
 					<input id="order-form-stage" type="radio" name="stage-input" checked/>
@@ -267,12 +272,14 @@
 						</div>
 					</div>
 
-				<div id="validate-container">
-					<hr>
-					<input id="back-stage-button" class="btn btn-default" type="button" value="Retour">
-					<input id="next-stage-button" class="btn btn-default" type="button" value="Suivant">
-					<!-- <input id="reset-button" type="reset" value="Remise à zéro"> -->
-					<input id="validate-button" class="btn btn-default" type="submit"  value="Valider">
+					<div id="validate-container">
+						<hr>
+						<input id="back-stage-button" class="btn btn-default" type="button" value="Retour">
+						<input id="next-stage-button" class="btn btn-default" type="button" value="Suivant">
+						<!-- <input id="reset-button" type="reset" value="Remise à zéro"> -->
+						<input id="validate-button" class="btn btn-default" type="submit"  value="Valider">
+					</div>
+			
 				</div>
 
 				<br>
@@ -288,6 +295,7 @@
 
 				<!-- Default choice -->
 				<input type="radio" id="order-type-default-choice" name="order-type-radio" value=""  style="display: none;" checked>
+
 			</form>
 		</div>
 

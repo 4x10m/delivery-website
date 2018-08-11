@@ -13,6 +13,25 @@ td {
 	text-align: left;
 }
 
+/*(div > input#order-type-radio:not(:checked)) ~ #objectdelivery-order-container*/
+/*#test-div:not(input[name=order-type-radio]:not(:checked))   {
+	display: none;
+}*/
+
+input[name=order-type-radio] {
+	float: left;
+}
+
+#order-type-radio-label {
+	display: block;
+	margin-left: 20px;
+}
+
+
+input[name=order-type-radio]:not(:checked) ~ #objectdelivery-order-container {
+	display: none;
+}
+
 .panels [data-panel="validation-form-stage"] {
 	text-align: center;
 }
