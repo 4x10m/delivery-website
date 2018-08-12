@@ -241,7 +241,7 @@
 									<td id="start-date-field"></td>
 								</tr>
 								<tr>
-									<td>Temps de départ</td>
+									<td>Heure de départ</td>
 									<td id="start-time-field"></td>
 								</tr>
 								<tr>
@@ -257,7 +257,7 @@
 									<td id="end-date-field"></td>
 								</tr>
 								<tr>
-									<td>Temps d'arrivée</td>
+									<td>Heure d'arrivée</td>
 									<td id="end-time-field"></td>
 								</tr>
 								<tr>
@@ -266,27 +266,27 @@
 								</tr>
 								<tr>
 									<td>Distance</td>
-									<td id="distance-field"></td>
-								</tr>
-								<tr>
-									<td>Gain vertical</td>
-									<td id="elevation-field"></td>
+									<td><span id="distance-field"></span> m</td>
 								</tr>
 								<tr>
 									<td>Prix de la distance</td>
-									<td id="distance-price-field"></td>
+									<td><span id="distance-price-field"></span> €</td>
+								</tr>
+								<tr>
+									<td>Gain vertical</td>
+									<td><span id="elevation-field"></span> m</td>
 								</tr>
 								<tr>
 									<td>Prix de l'altimétrie</td>
-									<td id="distance-price-field"></td>
+									<td><span id="elevation-price-field"></span> €</td>
 								</tr>
 								<tr>
 									<td>Poids</td>
-									<td id="weight-field"></td>
+									<td><span id="weight-field"></span> kg</td>
 								</tr>
 								<tr>
 									<td>Prix du poids</td>
-									<td id="weight-field"></td>
+									<td><span id="weight-price-field"></span> €</td>
 								</tr>
 								<tr>
 									<td>Urgence</td>
@@ -294,7 +294,7 @@
 								</tr>
 								<tr>
 									<td>Donation</td>
-									<td id="order-tip-field"></td>
+									<td><span id="order-tip-field"></span> €</td>
 								</tr>
 								<tr>
 									<td>Nom client</td>
@@ -318,10 +318,10 @@
 								</tr>
 								<tr>
 									<td>Prix total</td>
-									<td id="order-price-field"></td>
+									<td><span id="order-price-field"></span> €</td>
 								</tr>
 							</table>
-							 <hr>
+							<hr>
 							<p>Payer maintenant ou plus tard</p>
 							<div id="paypal-button"></div>
 						</div>
@@ -349,12 +349,23 @@
 				</div>
 
 				<!-- Default choice -->
-				<input type="radio" id="order-type-default-choice" name="order-type-radio" value=""  style="display: none;" checked>
+				<input type="radio" name="order-type-radio" value="order-type-default-choice" hidden checked>
 
+				<!-- Auto completed field -->
+
+				<input type="hidden" name="order-distance-input">
+				<input type="hidden" name="order-distance-price-input">
+
+				<input type="hidden" name="order-verticalgain-input">
+				<input type="hidden" name="order-verticalgain-price-input">
+
+				<input type="hidden" name="order-weight-price-input">
+
+				<input type="hidden" name="order-totalprice-input">
+
+				<input type="hidden" name="order-paid-input">
 			</form>
 		</div>
-
-
 	</div>
 
 	<div id="fixed-price" class="label">

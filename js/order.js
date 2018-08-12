@@ -18,6 +18,8 @@ class OrderWaypoint {
 
 class Order {
 	constructor() {
+		// 0: default
+		// 1: personalized
 		this.orderType = 0;
 		
 		this._startWaypoint = null;
@@ -44,20 +46,28 @@ class Order {
 		this.refreshUI = null;
 	}
 
+	get printableOrderType() {
+		if (this.orderType == 0) {
+			return "Défaut"
+		} else if (this.orderType == 1) {
+			return "Livraison d'objets";
+		}
+	}
+
 	get startWaypoint() {
 		return this._startWaypoint;
 	}
 
 	set startWaypoint(value) {
-		//if (typeof(value) == OrderWaypoint)  {
-			this._startWaypoint = value;
+		this._startWaypoint = value;
 
-			this.refreshDistance();
-		//}
+		this.refreshDistance();
 	}
 
 	get elevationPrice() {
-		return this.elevation * 0.02; 
+		var elevationPrice = this.elevation * 0.02;
+		
+		return Math.round(this.elevation * 0.02 * 100) / 100;
 	}
 
 	get endWaypoint() {
@@ -65,12 +75,27 @@ class Order {
 	}
 
 	set endWaypoint(value) {
-		//if (typeof(value) == OrderWaypoint)  {
-			this._endWaypoint = value;
+		this._endWaypoint = value;
 
-			this.refreshDistance();
-		//}
+		this.refreshDistance();
+	}
 
+	get weight() {
+		return this._weight;
+	}
+
+	get printableWeight() {
+		if (this._weight == 1) {
+			return "0-1 kg";
+		} else if (this._weight == 2) {
+			return "1-5 kg";
+		} else if (this._weight == 3) {
+			return "5-15 kg";
+		} else if (this._weight == 4) {
+			return "+15 kg";
+		}
+
+		return 0;
 	}
 
 	set weight(value) {
@@ -151,7 +176,8 @@ class Order {
 			dist = Math.acos(dist);
 			dist = dist * 180/Math.PI;
 			dist = dist * 60 * 1.1515 * 1.609344;
-			this.distance = dist;
+
+			this.distance = Math.round(dist * 100) / 100;
 		}
 
 		this.refreshDistancePrice();
@@ -164,14 +190,14 @@ class Order {
 		var factor = 2;
 		var price = Math.pow(this.distance, factor) * (valmin / Math.pow(valeur, factor));
 
-		this.distancePrice = price;
+		this.distancePrice = Math.round(price * 100) / 100;
 	}
 
 	refreshElevation() {
 		var _this = this;
 
 		var elevation = Map.getElevation(function(elevation) {
-			_this.elevation = elevation;
+			_this.elevation = Math.round(elevation);
 
 			_this.refreshUI();
 		});
