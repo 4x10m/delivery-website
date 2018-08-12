@@ -95,7 +95,7 @@ order.refreshUI = function() {
 var googleMap = null;
 
 function refreshSummary() {
-	orderTypeField.textContent = orderTypeRadio.value;
+	orderTypeField.textContent = order.printableOrderType;
 
 	orderStartAddressField.textContent = startAddressInput.value;
 	orderStartDateField.textContent = new Date(startDateInput.value).toLocaleDateString("fr-FR");
@@ -292,7 +292,14 @@ nextStageButton.addEventListener("click", function() {
 			return;
 		}
 
+		order.clientName = clientNameInput.value;
+		order.clientAddress = clientAddressInput.value;
+		order.clientAddressComplement = clientAddressComplementInput.value;
+		order.clientMail = clientMailInput.value;
+		order.clientNumber = clientNumberInput.value;
+
 		refreshSummary();
+		renderPaypal();
 		validationStageRadio.checked = true;
 	}
 });
@@ -341,5 +348,6 @@ window.addEventListener("load", function() {
 	order.urgency = urgencyCheckBox.checked;
 	order.donation = parseFloat(orderTipInput.value);
 
+	renderPaypal();
 	refreshSummary();
 });

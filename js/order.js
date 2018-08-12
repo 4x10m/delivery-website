@@ -27,6 +27,12 @@ class Order {
 		this._weight =  0;
 		this._urgency =  false;
 		this._donation = 0;
+
+		this.clientName = "";
+		this.clientAddress = "";
+		this.clientAddressComplement = "";
+		this.clientMail = "";
+		this.clientNumber = "";
 		
 
 		this.paid = false;
@@ -86,13 +92,13 @@ class Order {
 
 	get printableWeight() {
 		if (this._weight == 1) {
-			return "0-1 kg";
+			return "0-1";
 		} else if (this._weight == 2) {
-			return "1-5 kg";
+			return "1-5";
 		} else if (this._weight == 3) {
-			return "5-15 kg";
+			return "5-15";
 		} else if (this._weight == 4) {
-			return "+15 kg";
+			return "+15";
 		}
 
 		return 0;
@@ -116,6 +122,14 @@ class Order {
 		}
 
 		return 0;
+	}
+
+	get printableUrgency() {
+		if (this.urgency) {
+			return "Oui";
+		} else {
+			return "Non";
+		}
 	}
 
 	set urgency(value) {

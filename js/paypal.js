@@ -1,3 +1,5 @@
+function renderPaypal() {
+  document.getElementById("paypal-button").innerHTML = "";
 paypal.Button.render({
   // Configure environment
   env: 'sandbox',
@@ -6,7 +8,7 @@ paypal.Button.render({
     production: 'demo_production_client_id'
   },
   // Customize button (optional)
-  locale: 'en_US',
+  locale: 'fr_FR',
   style: {
     size: 'small',
     color: 'gold',
@@ -17,48 +19,38 @@ paypal.Button.render({
     return actions.payment.create({
       transactions: [{
         amount: {
-          total: '0.08',
+          total: order.totalPrice,
           currency: 'EUR',
           details: {
-            subtotal: '0.01',
-            tax: '0.07',
+            subtotal: order.totalPrice,
+            tax: '0.00',
             shipping: '0.00',
             handling_fee: '0.00',
             shipping_discount: '-0.00',
             insurance: '0.00'
           }
         },
-        custom: '90048630024435',
-        description: 'The payment transaction description.',
+        custom: '',
+        description: 'Paiement de votre livraison d\'objet',
         item_list: {
           items: [
             {
-              name: 'Transport',
-              description: 'Brown hat.',
+              name: 'Livraison d\'objet',
+              description: "Acheminement d'un objet selon les renseignements entrés dans le formulaire de commande.",
               quantity: '1',
-              price: '0.01',
-              tax: '0.07',
-              sku: '0',
+              price: order.totalPrice,
+              tax: '0.00',
+              sku: '0.00',
               currency: 'EUR'
             }
-          ],
-          shipping_address: {
-            recipient_name: 'Brian Robinson',
-            line1: '4th Floor',
-            line2: 'Unit #34',
-            city: 'San Jose',
-            country_code: 'US',
-            postal_code: '95131',
-            phone: '011862212345678',
-            state: 'CA'
-          }
+          ]
         }
       }],
-      note_to_payer: 'Contact us for any questions on your order.',
-      "redirect_urls": {
+      note_to_payer: "N\'hésitez à nous contacter pour de plus ample information",
+/*      "redirect_urls": {
         "return_url": "https://example.com/return",
         "cancel_url": "https://example.com/cancel"
-      }
+      }*/
     });
   },
   // Execute the payment
@@ -70,3 +62,4 @@ paypal.Button.render({
       });
   }
 }, '#paypal-button');
+}
