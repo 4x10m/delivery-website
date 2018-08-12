@@ -8,11 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/common.css">
 	<link rel="stylesheet" type="text/css" href="css/order.css">
 
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
 	<script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry"></script>
 </head>
@@ -32,7 +28,7 @@
 
 			<h1>Commander</h1>
 
-			<form name="order-form" action="order-payment.html" method="post" class="needs-validation">
+			<form name="order-form" action="http://evangarotadrian.fr/order.php" method="post" class="needs-validation">
 
 				<h2>Type de prestation</h2>
 
@@ -42,27 +38,24 @@
 
 				
 				<input  type="radio" name="order-type-radio" value="objectdelivery">
- 				<!-- <div class="radio"> -->
-					<!-- <label  for="order-type-radio" > -->
 						
-<span id="order-type-radio-label" class="radio-label" >
+				<label id="order-type-radio-label" class="radio-label" ><span class="radio-label">
 						<strong>
 							Livraison d'objets
 						</strong>
 
 						<br>
 
-						Comprend la récupération d'un objet dans un endroit spécifique et l'acheminement de celui-ci vers un autre endroit.
-						</span>
-					<!-- </label> -->
-					
-				<!-- </div> -->
-			
+						Comprend la récupération d'un objet dans un endroit spécifique et l'acheminement de celui-ci vers un autre endroit.</span>
+				</label>
 
 				<div class="hidden" id="objectdelivery-order-container">
-					<input id="order-form-stage" type="radio" name="stage-input" checked/>
-					<input id="client-form-stage" type="radio" name="stage-input" />
-					<input id="validation-form-stage" type="radio" name="stage-input" />
+					<input id="order-form-stage" type="radio" name="stage-input" checked disabled>
+					<label class="stage-label" for="order-form-stage">1</label>
+					<input id="client-form-stage" type="radio" name="stage-input" disabled>
+					<label class="stage-label" for="client-form-stage">2</label>
+					<input id="validation-form-stage" type="radio" name="stage-input" disabled>
+					<label class="stage-label" for="validation-form-stage">3</label>
 
 					<div class="panels">
 						<!-- Order informations -->
@@ -70,11 +63,17 @@
 						<div data-panel="order-form-stage">
 							<h2>Renseignement de la commande</h2>
 
+							<hr>
+
+							<h3>Base</h3>
+
+							<p>Prise en charge <strong>+1€</strong></p>
+
 							<!-- Adresses -->
 
-							<h3>Adresses</h3>
-
 							<hr>
+
+							<h3>Adresses</h3>
 
 							<p><em>Entrer les adresses de livraisons</em></p>
 
@@ -85,12 +84,30 @@
 									<a id="select-start-on-map-link" class="select-on-map-link help-block" href="">Selectionner sur la carte</a>
 								</div>
 
+								<div class="form-group form-inline justify-content-center">
+									<input class="form-control" type="date" name="start-date-input" required>
+									<input class="form-control" type="time" name="start-time-input" required>
+								</div>
+
+								<div class="form-group">
+									<textarea class="form-control" name="start-instruction-input" placeholder="Instructions..." rows="3"></textarea>
+								</div>
+
 								<div class="form-group form-group-sm">
 									<div id="end-address">
-										<span for="end-address-input">Lieu de dépose</span>
+										<span for="end-address-input">Lieu de dépot</span>
 										<input type="text" id="end-address-input" class="form-control" name="end-address" placeholder="Adresse d'arrivée" required>
 										<a class="select-on-map-link help-block" id="select-end-on-map-link" href="">Selectionner sur la carte</a>
 									</div>
+								</div>
+
+								<div class="form-group form-inline justify-content-center">
+									<input class="form-control" type="date" name="end-date-input" required>
+									<input class="form-control" type="time" name="end-time-input" required>
+								</div>
+
+								<div class="form-group">
+									<textarea class="form-control" name="end-instruction-input" placeholder="Instructions..." rows="3"></textarea>
 								</div>
 							</div>
 
@@ -104,9 +121,9 @@
 
 							<!-- Poids -->
 
-							<h3>Poids</h3>
-
 							<hr>
+
+							<h3>Poids</h3>
 
 							<p><em>Renseigner le poids du ou des objets à transporter</em></p>
 
@@ -123,7 +140,7 @@
 								</div>
 
 								<div class="col-sm-3">
-									<label for="choice4" class="radio-inline">
+									<label for="choice1" class="radio-inline">
 										<input type="radio" id="choice1" name="choice-weight" value="2" required>
 										<span class="radio-label" >
 											1-5kg<br>
@@ -133,7 +150,7 @@
 								</div>
 
 								<div class="col-sm-3">
-									<label for="choice4" class="radio-inline">
+									<label for="choice2" class="radio-inline">
 										<input type="radio" id="choice2" name="choice-weight" value="3" required>
 										<span class="radio-label" >
 											5-15kg<br>
@@ -143,7 +160,7 @@
 								</div>
 
 								<div class="col-sm-3">
-									<label for="choice4" class="radio-inline">
+									<label for="choice3" class="radio-inline">
 										<input type="radio" id="choice3" name="choice-weight" value="4" required>
 										<span class="radio-label" >
 											+15kg<br>
@@ -155,9 +172,9 @@
 
 							<!-- Urgence -->
 
-							<h3>Urgence</h3>
-
 							<hr>
+
+							<h3>Urgence</h3>
 
 							<p><em>Renseigner le charactère urgent de la commande</em></p>
 
@@ -168,24 +185,29 @@
 
 							<!-- Donation -->
 
-							<h3>Donation</h3>
-
 							<hr>
+
+							<h3>Donation</h3>
 
 							<p><em>Montant libre</em></p>
 
-							<div class="row">
-								<strong>
-									<div id="order-tip" class="form-group form-group-sm col-sm-3">
-										<span for="order-tip-input"></span>
-										<input type="number" id="order-tip-input" class="form-control" name="order-tip-input" step="0.01" placeholder="0">
-									</div><span id="tip-unit">€</span>
-								</strong>
+							<div class="container">
+							<div class="span12"></div>
+							<div id="order-tip" class="input-group justify-content-center">
+								<div class="input-group-prepend">
+							    	<span class="input-group-text" id="testing">€</span>
+								</div>
+								<input type="number" id="order-tip-input" class="form-control col-4" name="order-tip-input" step="0.01" placeholder="0" aria-describedby="testing">
 							</div>
+						</div>
 						</div>
 
 						<div data-panel="client-form-stage">
-							<h2>Informations de facturation</h2>
+							<h2>Informations client</h2>
+
+							<hr>
+
+							<h3>Informations de facturation</h3>
 
 							<input type="text" class="form-control" name="client-name-input" placeholder="Nom et prénom" required>
 
@@ -195,7 +217,9 @@
 
 							<input type="text" class="form-control" name="client-mail-input" placeholder="Addresse email" required>
 
-							<h2>Informations complémentaires</h2>
+							<hr>
+
+							<h3>Informations complémentaires</h3>
 
 							<input type="text" class="form-control" name="client-number-input" placeholder="Numéro de téléphone" required>
 						</div>
@@ -213,8 +237,32 @@
 									<td id="start-address-field"></td>
 								</tr>
 								<tr>
-									<td>Addresse de d'arrivée</td>
+									<td>Date de départ</td>
+									<td id="start-date-field"></td>
+								</tr>
+								<tr>
+									<td>Temps de départ</td>
+									<td id="start-time-field"></td>
+								</tr>
+								<tr>
+									<td>Instructions de départ</td>
+									<td id="start-instruction-field"></td>
+								</tr>
+								<tr>
+									<td>Addresse d'arrivée</td>
 									<td id="end-address-field"></td>
+								</tr>
+								<tr>
+									<td>Date d'arrivée</td>
+									<td id="end-date-field"></td>
+								</tr>
+								<tr>
+									<td>Temps d'arrivée</td>
+									<td id="end-time-field"></td>
+								</tr>
+								<tr>
+									<td>Instructions d'arrivée</td>
+									<td id="end-instruction-field"></td>
 								</tr>
 								<tr>
 									<td>Distance</td>
@@ -229,7 +277,15 @@
 									<td id="distance-price-field"></td>
 								</tr>
 								<tr>
+									<td>Prix de l'altimétrie</td>
+									<td id="distance-price-field"></td>
+								</tr>
+								<tr>
 									<td>Poids</td>
+									<td id="weight-field"></td>
+								</tr>
+								<tr>
+									<td>Prix du poids</td>
 									<td id="weight-field"></td>
 								</tr>
 								<tr>
@@ -268,7 +324,6 @@
 							 <hr>
 							<p>Payer maintenant ou plus tard</p>
 							<div id="paypal-button"></div>
-							
 						</div>
 					</div>
 
@@ -284,10 +339,10 @@
 
 				<br>
 
-				<label for="choice4" class="radio-inline">
-					<input type="radio" id="choice4" name="order-type-radio" value="personalized" disabled>
-					Personalisée <strong>(A venir)</strong><br>
-					Pour toute demande personnalisée
+				<label for="personalized-order-radio" class="radio-inline">
+					<input type="radio" name="personalized-type-radio" value="personalized" disabled>
+					<span class="radio-label"><strong>Personalisée (A venir)</strong><br>
+					Pour toute demande personnalisée</span>
 				</label>
 
 				<div class="hidden" id="personalized-order-container">

@@ -20,16 +20,26 @@ class Order {
 	constructor() {
 		this.orderType = 0;
 		
-		this._startWaypoint =  null;
-		this._endWaypoint =  null;
+		this._startWaypoint = null;
+		this._endWaypoint = null;
 		this._weight =  0;
 		this._urgency =  false;
 		this._donation = 0;
+		
 
+		this.paid = false;
 
-		this.elevation =  0;
 		this.distance =  0;
-		this.distancePrice =  0;
+		this.distancePrice = 0;
+		this.elevation =  0;
+
+		this.startDate = null;
+		this.startTime = null;
+		this.startInstruction = null;
+
+		this.endDate = null;
+		this.endTime = null;
+		this.endInstruction = null;
 
 		this.refreshUI = null;
 	}
@@ -44,6 +54,10 @@ class Order {
 
 			this.refreshDistance();
 		//}
+	}
+
+	get elevationPrice() {
+		return this.elevation * 0.02; 
 	}
 
 	get endWaypoint() {
@@ -102,10 +116,11 @@ class Order {
 	}
 
 	get totalPrice() {
-		var price = 0;
+		var price = 1;
 		price += this.distancePrice;
 		price += this.weightPrice;
 		price += this.donation;
+		price += this.elevationPrice;
 
 		if (this._urgency) {
 			price += 0.5;
@@ -144,8 +159,8 @@ class Order {
 	}
 
 	refreshDistancePrice() {
-		var valmin = 4.2;
-		var valeur = 3.5;
+		var valmin = 3.5;
+		var valeur = 2.33;
 		var factor = 2;
 		var price = Math.pow(this.distance, factor) * (valmin / Math.pow(valeur, factor));
 

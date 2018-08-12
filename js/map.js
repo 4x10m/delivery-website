@@ -17,12 +17,12 @@ class Map {
         this.pointsPath = null;
 
         this.googleMap = new google.maps.Map(this.map,
-            { 
-                zoom: 4, 
+            {
+                zoom: 11, 
                 center: 
                 {
-                    lat: 42, 
-                    lng: 2 
+                    lat: 47.386306, 
+                    lng: 0.685145
                 }, 
                 disableDefaultUI: true, 
                 zoomControl: true 
@@ -65,10 +65,10 @@ class Map {
             Map.self.googleMap.fitBounds(bounds);
             //fitBoundsWithPadding(map, bounds, {top:500, right: 30, bottom: 50});
         } else if (Map.self.startAddressMarker) {
-            Map.self.googleMap.setZoom(17);
+            Map.self.googleMap.setZoom(12);
             Map.self.googleMap.setCenter(Map.self.startAddressMarker.getPosition());
         } else if (Map.self.endAddressMarker) {
-            Map.self.googleMap.setZoom(17);
+            Map.self.googleMap.setZoom(12);
             Map.self.googleMap.setCenter(Map.self.endAddressMarker.getPosition());
         }
     }

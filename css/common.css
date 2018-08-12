@@ -52,7 +52,7 @@ a {
 }
 
 #map {
-	height: 400px;  /* The height is 400 pixels */
+	height: 250px;  /* The height is 400 pixels */
 	width: 100%;  /* The width is the width of the web page */
 }
 
@@ -106,6 +106,7 @@ a {
 	right: 50px;
 	padding: 10px;
 	background-color: #2F3542;
+	color: white;
 }
 
 #validate-container {
@@ -114,7 +115,7 @@ a {
 }
 
 #map {
-	height: 400px;
+	height: 250px;
 	width: 100%;
 }
 

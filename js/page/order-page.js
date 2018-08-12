@@ -13,6 +13,14 @@ var clientMailInput = document.forms['order-form'].elements['client-mail-input']
 var clientNumberInput = document.forms['order-form'].elements['client-number-input'];
 var validateButton = document.forms['order-form'].elements['validate-button']; 
 
+var startDateInput = document.forms['order-form'].elements['start-date-input'];
+var startTimeInput = document.forms['order-form'].elements['start-time-input'];
+var startInstructionInput = document.forms['order-form'].elements['start-instruction-input'];
+
+var endDateInput = document.forms['order-form'].elements['end-date-input'];
+var endTimeInput = document.forms['order-form'].elements['end-time-input'];
+var endInstructionInput = document.forms['order-form'].elements['end-instruction-input'];
+
 var startAddressInput = document.forms['order-form'].elements['start-address'];
 var orderDistance = document.getElementById('order-distance');
 var orderElevation = document.getElementById('order-elevation');
@@ -73,7 +81,7 @@ function refreshSummary() {
 	orderDistancePriceField.textContent = order.distancePrice;
 	orderWeightField.textContent = weightRadio.value;
 	orderUrgencyField.textContent = urgencyCheckBox.checked;
-	orderTipField.textContent = orderTipInput.value;
+	orderTipField.textContent = order.donation;
 
 	clientNameField.textContent = clientNameInput.value;
 	clientAddressField.textContent = clientAddressInput.value;
@@ -86,7 +94,7 @@ function refreshSummary() {
 
 	order = new Order();
 	order.refreshUI = function() {
-		lineInfoWindowPrice.textContent = String(Math.round(order.distancePrice * 100) / 100);
+		lineInfoWindowPrice.textContent = String(Math.round((order.distancePrice + order.elevationPrice) * 100) / 100);
 	    lineInfoWindowDistance.textContent = String(Math.round(order.distance * 100) / 100);
 	    lineInfoWindowElevation.textContent = String(Math.round(order.elevation * 100) / 100);
 	    fixedPriceContent.textContent = String(Math.round(order.totalPrice * 100) / 100);
@@ -228,6 +236,8 @@ backStageButton.addEventListener("click", function() {
 		clientStageRadio.checked = true;
 	} else if (clientStageRadio.checked) {
 		orderStageRadio.checked = true;
+
+		Map.refreshMapViewPort();
 	}
 })
 

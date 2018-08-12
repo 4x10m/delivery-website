@@ -65,8 +65,8 @@ paypal.Button.render({
   onAuthorize: function (data, actions) {
     return actions.payment.execute()
       .then(function () {
-        // Show a confirmation message to the buyer
-        window.alert('Thank you for your purchase!');
+        order.paid = true;
+        document.getElementById("paypal-button").innerHTML = "&#10004; Done";
       });
   }
 }, '#paypal-button');

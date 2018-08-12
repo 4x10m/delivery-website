@@ -1,6 +1,9 @@
 <?php
-$startaddress = $_GET['start-address'];
-$endaddress = $_GET['end-address'];
+
+ini_set('display_errors',1);
+
+$startaddress = $_POST['start-address'];
+$endaddress = $_POST['end-address'];
 
 $to = "axiiom.home@gmail.com";
 $subject = "Commande";
@@ -15,7 +18,8 @@ require 'PHPMailer/src/SMTP.php';
 
 $mail = new PHPMailer;
 
-$mail->isSMTP();
+//$mail->isSMTP();
+$mail->isMail();
 $mail->Host = 'smtp.gmail.com';
 $mail->SMTPAuth = true;
 $mail->Username = 'testeraxiiom@gmail.com';
@@ -32,6 +36,8 @@ $mail->isHTML(true);
 $mail->Subject = $subject;
 $mail->Body    = $message;
 
+$mail->SMTPDebug = 3;
+
 if(!$mail->send()) {
    echo 'Message could not be sent.';
    echo 'Mailer Error: ' . $mail->ErrorInfo;
@@ -39,7 +45,4 @@ if(!$mail->send()) {
 }
 
 echo 'Message has been sent';
-
-//$result = mail($to, $subject, $message);
-//echo $result;
 ?>
