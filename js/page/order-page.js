@@ -47,6 +47,14 @@ var clientStageRadio =orderForm.elements["client-form-stage"];
 var orderStageRadio = orderForm.elements["order-form-stage"];
 var validationStageRadio = orderForm.elements["validation-form-stage"];
 
+var orderDistanceInput = orderForm.elements["order-distance-input"];
+var orderDistancePriceInput = orderForm.elements["order-distance-price-input"];
+var orderVerticalGainInput = orderForm.elements["order-verticalgain-input"];
+var orderVerticalGainPriceInput = orderForm.elements["order-verticalgain-price-input"];
+var orderWeightPriceInput = orderForm.elements["order-weight-price-input"];
+var orderTotalPriceInput = orderForm.elements["order-totalprice-input"];
+var orderPaidInput = orderForm.elements["order-paid-input"];
+
 // ------- SUMMARY -------
 
 var orderTypeField = document.getElementById('order-type-field');
@@ -89,6 +97,14 @@ order.refreshUI = function() {
     lineInfoWindowElevation.textContent = String(Math.round(order.elevation * 100) / 100);
     fixedPriceContent.textContent = String(Math.round(order.totalPrice * 100) / 100);
     
+    orderDistanceInput.value = order.distance;
+    orderDistancePriceInput.value = order.distancePrice;
+    orderVerticalGainInput.value = order.elevation;
+    orderVerticalGainPriceInput.value = order.elevationPrice;
+    orderWeightPriceField.value = order.weightPrice;
+    orderTotalPriceInput.value = order.totalPrice;
+    orderPaidInput.value = order.paid;
+
     refreshSummary();
 };
 
