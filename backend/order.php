@@ -1,6 +1,8 @@
 <?php
 
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $type = $_POST['order-type-radio'];
 
@@ -23,7 +25,11 @@ $verticalGainPrice = $_POST['order-verticalgain-price-input'];
 $weight = $_POST['choice-weight'];
 $weightPrice = $_POST['order-weight-price-input'];
 
-$urgency = $_POST['urgency-checkbox'];
+$urgency = false;
+
+if (isset($_POST['urgency-checkbox']) && $_POST['urgency-checkbox']) {
+	$urgency = true;
+}
 
 $donation = $_POST['order-tip-input'];
 
@@ -82,23 +88,8 @@ require 'PHPMailer/src/SMTP.php';
 
 $mail = new PHPMailer;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//$mail->isSMTP();
-$mail->isMail();
+$mail->isSMTP();
+//$mail->isMail();
 $mail->Host = 'smtp.gmail.com';
 $mail->SMTPAuth = true;
 $mail->Username = 'testeraxiiom@gmail.com';
@@ -114,8 +105,6 @@ $mail->isHTML(true);
 
 $mail->Subject = $subject;
 $mail->Body    = nl2br($message);
-
-$mail->SMTPDebug = 3;
 
 if(!$mail->send()) {
    echo 'Message could not be sent.';

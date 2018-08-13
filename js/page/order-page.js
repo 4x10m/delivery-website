@@ -101,7 +101,7 @@ order.refreshUI = function() {
     orderDistancePriceInput.value = order.distancePrice;
     orderVerticalGainInput.value = order.elevation;
     orderVerticalGainPriceInput.value = order.elevationPrice;
-    orderWeightPriceField.value = order.weightPrice;
+    orderWeightPriceInput.value = order.weightPrice;
     orderTotalPriceInput.value = order.totalPrice;
     orderPaidInput.value = order.paid;
 

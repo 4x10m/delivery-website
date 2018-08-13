@@ -111,13 +111,13 @@ class Order {
 	}
 
 	get weightPrice() {
-		if (this._weight == 1) {
+		if (this.weight == 1) {
 			return 0.5;
-		} else if (this._weight == 2) {
+		} else if (this.weight == 2) {
 			return 1;
-		} else if (this._weight == 3) {
+		} else if (this.weight == 3) {
 			return 2;
-		} else if (this._weight == 4) {
+		} else if (this.weight == 4) {
 			return 3;
 		}
 
