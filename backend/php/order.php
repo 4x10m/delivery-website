@@ -11,8 +11,8 @@ $startInstruction = $_POST['start-instruction-input'];
 
 $endaddress = $_POST['end-address'];
 $endDate = $_POST['end-date-input'];
-$endTime = $_POST['end-date-input'];
-$endInstruction = $_POST['end-date-input'];
+$endTime = $_POST['end-time-input'];
+$endInstruction = $_POST['end-instruction-input'];
 
 $distance = $_POST['order-distance-input'];
 $distancePrice = $_POST['order-distance-price-input'];
@@ -61,7 +61,7 @@ $message = "Type: " . $type . "\n"
 . "Prix distance: " . $distancePrice . "\n"
 . "Gain: " . $verticalGain . "\n"
 . "Prix gain: " . $verticalGainPrice . "\n"
-. "Poid: s" . $weight . "\n"
+. "Poids: " . $weight . "\n"
 . "Prix poids: " . $weightPrice . "\n"
 . "Urgence: " . $urgency . "\n"
 . "Don: " . $donation . "\n"
@@ -123,6 +123,6 @@ if(!$mail->send()) {
    exit;
 }
 
-//header('Location: file:///D:/Working/Coopcycle/delivery-website/index.html');
-//exit;
+header('Location: index.html');
+exit;
 ?>

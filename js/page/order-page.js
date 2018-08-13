@@ -318,7 +318,7 @@ orderForm.addEventListener("reset", function() {
 	validateOrderType(null);
 });
 
-orderForm.addEventListener("submit", function(e) {
+/*orderForm.addEventListener("submit", function(e) {
 	console.log("yop");
 
 	if (e.isDefaultPrevented()) {
@@ -327,7 +327,7 @@ orderForm.addEventListener("submit", function(e) {
 		console.log("no error");
 	}
 });
-
+*/
 
 orderForm.addEventListener("invalid", function(e) {
 	console.log("yop");
