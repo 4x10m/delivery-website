@@ -1,10 +1,12 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 $type = $_POST['order-type-radio'];
+
+$printableType = NULL;
+
+if ($type = "objectdelivery") {
+	$printableType = "Livraison d'objet";
+}
 
 $startaddress = $_POST['start-address'];
 $startDate = $_POST['start-date-input'];
@@ -26,9 +28,16 @@ $weight = $_POST['choice-weight'];
 $weightPrice = $_POST['order-weight-price-input'];
 
 $urgency = false;
+$printableUrgency = NULL;
 
 if (isset($_POST['urgency-checkbox']) && $_POST['urgency-checkbox']) {
 	$urgency = true;
+}
+
+if ($urgency) {
+	$printableUrgency = "Oui";
+} else {
+	$printableUrgency = "Non";
 }
 
 $donation = $_POST['order-tip-input'];
@@ -42,8 +51,13 @@ $clientNumber = $_POST['client-number-input'];
 $totalPrice = $_POST['order-totalprice-input'];
 
 $paid = $_POST['order-paid-input'];
+$printablePaid = NULL;
 
-$to = "testeraxiiom@gmail.com";
+if ($paid) {
+	$printablePaid = "Oui";
+} else {
+	$printablePaid = "Non";
+}
 
 $subject = "";
 
@@ -79,6 +93,113 @@ $message = "Type: " . $type . "\n"
 . "Prix total: " . $totalPrice . "\n"
 . "Payé: " . $paid . "\n";
 
+$clientsubject = "Evan GAROT--ADRIAN: Recapitulatif de votre commande";
+$clientmessage = 
+"<h1>Evan GAROT--ADRIAN<small>, votre service de livraison à vélo sur Tours.</small></h1>" .
+$clientName . ", vous avez récemment réaliser une demande de livraison via le formulaire de commande Evan GAROT--ADRIAN." .
+"<h2>Recapitulatif de votre commande</h2>" .
+"<hr>" .
+"<table>" .
+"	<tr>" .
+"		<td>Type de commande</td>" .
+"		<td>" . $printableType . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Date de départ</td>" .
+"		<td>" . $startDate . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Heure de départ</td>" .
+"		<td>" . $startTime . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Addresse de départ</td>" .
+"		<td>" . $startaddress . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Instructions de départ</td>" .
+"		<td>" . $startInstruction . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Date d'arrivée</td>" .
+"		<td>" . $endDate . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Heure d'arrivée</td>" .
+"		<td>" . $endTime . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Addresse d'arrivée</td>" .
+"		<td>" . $endaddress . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Instructions d'arrivée</td>" .
+"		<td>" . $endInstruction . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Distance</td>" .
+"		<td>" . $distance . " m</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Prix de la distance</td>" .
+"		<td>" . $distancePrice . " €</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Gain vertical</td>" .
+"		<td>" . $verticalGain . " m</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Prix de l'altimétrie</td>" .
+"		<td>" . $verticalGainPrice . " €</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Poids</td>" .
+"		<td>" . $weight . " kg</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Prix du poids</td>" .
+"		<td>" . $weightPrice . " €</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Urgence</td>" .
+"		<td>" . $printableUrgency . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Donation</td>" .
+"		<td>" . $donation . " €</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Nom client</td>" .
+"		<td>" . $clientName . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Adresse</td>" .
+"		<td>" . $clientAddress . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Complément d\"adresse</td>" .
+"		<td>" . $clientAddressComplement . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Adresse email</td>" .
+"		<td>" . $clientEmail . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Numéro de téléphone</td>" .
+"		<td>" . $clientNumber . "</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Prix total</td>" .
+"		<td>" . $totalPrice . " €</td>" .
+"	</tr>" .
+"	<tr>" .
+"		<td>Payé</td>" .
+"		<td>" . $printablePaid . "</td>" .
+"	</tr>" .
+"</table>" .
+"<br>" .
+"A très vite";
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -97,8 +218,8 @@ $mail->Password = '6474c3720083be3f1f3f13ffbb252b8521b6bb9cb64cc7e78bc812a9125cf
 $mail->SMTPSecure = 'tls';
 $mail->Port = 587;
 
-$mail->setFrom('testeraxiiom@gmail.com', 'Amit Agarwal');
-$mail->addAddress('testeraxiiom@gmail.com', 'Josh Adams');
+$mail->setFrom('testeraxiiom@gmail.com', 'T2R');
+$mail->addAddress('testeraxiiom@gmail.com', 'Evan GAROT--ADRIAN');
 $mail->WordWrap = 50;
 
 $mail->isHTML(true);
@@ -107,9 +228,35 @@ $mail->Subject = $subject;
 $mail->Body    = nl2br($message);
 
 if(!$mail->send()) {
-   echo 'Message could not be sent.';
-   echo 'Mailer Error: ' . $mail->ErrorInfo;
-   exit;
+	//header('Location: index.html?order-success=false');
+/*   echo 'Message could not be sent.';
+   echo 'Mailer Error: ' . $mail->ErrorInfo;*/
+}
+
+$mail = new PHPMailer;
+
+$mail->isSMTP();
+//$mail->isMail();
+$mail->Host = 'smtp.gmail.com';
+$mail->SMTPAuth = true;
+$mail->Username = 'testeraxiiom@gmail.com';
+$mail->Password = '6474c3720083be3f1f3f13ffbb252b8521b6bb9cb64cc7e78bc812a9125cf05f';
+$mail->SMTPSecure = 'tls';
+$mail->Port = 587;
+
+$mail->setFrom('testeraxiiom@gmail.com', 'Evan GAROT--ADRIAN');
+$mail->addAddress($clientEmail, $clientName);
+$mail->WordWrap = 50;
+
+$mail->isHTML(true);
+
+$mail->Subject = $clientsubject;
+$mail->Body    = $clientmessage;
+
+if(!$mail->send()) {
+	header('Location: index.html?order-success=false');
+/*   echo 'Message could not be sent.';
+   echo 'Mailer Error: ' . $mail->ErrorInfo;*/
 }
 
 header('Location: index.html?order-success=true');

@@ -10,14 +10,12 @@
 </head>
 <body>
 	<div id="success-message" class="alert alert-success">
-		Votre commande à bien été envoyé.
+		Votre commande à bien été envoyée.
 	</div>
 
-	<noscript>
-		<div class="alert alert-success">
-			Votre commande à bien été envoyé.
-		</div>
-	</noscript>
+	<div id="failure-message" class="alert alert-danger">
+		Votre commande n'a pas être envoyée.
+	</div>
 
 	<div id="banner">
 
@@ -37,15 +35,19 @@
 						</div>
 					</div>
 				</div>
+
+				<div id="disclaimer-helper">
+					<h2><a id="title" href="index.html">Evan GAROT--ADRIAN, votre service de livraison à vélo sur Tours</a></h2>
+
+					<p class="disclaimer">
+						<strong style="color: red;">Attention</strong>
+						<br>
+						Ce site est en cours de développement, les tarifs affichés sont suceptibles de changer. De même que son nom et son propriétaire. <small>(Ceci n'altère en rien la qualité du service en lui-même)</small>
+					</p>
+				</div>
 				
 				<div id="main-container">
-					<p id="disclaimer">
-						<strong>Attention</strong>
-						<br>
-						Ce site est en cours de développement, les tarif affichés sont suceptibles de changer.
-					</p>
-
-					<h2>Evan GAROT--ADRIAN, votre service de livraison à vélo sur Tours</h2>
+					<h3>Notre service</h3>
 
 					<p>
 						Vous avez un colis à récupérer, un objet à déplacer ou un plis à livrer, Evan GAROT--ADRIAN s'occupe de tout en vous permettant de planifier une livraison à vélo. Remplissez le formulaire en précisant les lieux de prise en charge et de dépose pour qu'un livreurs puisse effectuer votre demande.
@@ -60,7 +62,7 @@
 					<br>
 					<hr>
 
-					<h3>Caractéristiques</h3>
+					<h3>Caractéristiques du service</h3>
 
 					<table>
 						<thead>
@@ -77,11 +79,7 @@
 								Grâce à son agilité et à son petit format, le vélo permet d’être réactif et libre en proposant une vitesse de déplacement en milieu urbain très compétitive.
 							</td>
 							<td>
-								 
-
-								Notre service d'inscrit dans une logique de développement durable puisqu'il utilise un moyen de transport qui ne reposant pas sur la consommation d'énergies fossiles.
-
-								En utilisant notre service, vous contribuez au développement de la cause vélo puisque celui-ci va avoir l’occasion de remplacer un trajet en voiture.
+								Notre service s'inscrit dans une logique de développement durable puisqu'il utilise un moyen de transport ne reposant pas sur la consommation d'énergies fossiles.
 							</td>
 						</tbody>
 					</table>
@@ -94,7 +92,7 @@
 						Nos tarifs sont calculés en fonction des caractéristiques de votre livraison comprenant la distance, l'altimétrie, le poids et l'urgence.
 					</p>
 
-					<a class="btn btn-light" type="button" href="about.html" role="button">En savoir plus</a>
+					<a class="btn btn-light" type="button" href="mailto:evan.garotadrian@gmail.com?subject=Demande de contact" role="button">Contactez-nous</a>
 				</div>
 
 <!-- 				<footer>
@@ -126,10 +124,16 @@
 
 		var orderSuccess = $_GET('order-success');
 
-		if (orderSuccess) {
-			var successMessage = document.getElementById("success-message");
-			successMessage.classList.add("alert-animated");
+		console.log(orderSuccess);
 
+		if (orderSuccess != null) {
+			if (orderSuccess == "true") {
+				var successMessage = document.getElementById("success-message");
+				successMessage.classList.add("alert-animated");
+			} else {
+				var failureMessage = document.getElementById("failure-message");
+				failureMessage.classList.add("alert-animated");
+			}
 		}
 	</script>
 </body>

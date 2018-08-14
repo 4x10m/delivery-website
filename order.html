@@ -26,11 +26,15 @@
 				</div>
 			</div>
 
+
+
 			<div id="disclaimer-helper">
-				<p id="disclaimer">
-					<strong>Attention</strong>
+				<h2><a id="title" href="index.html">Evan GAROT--ADRIAN, votre service de livraison à vélo sur Tours</a></h2>
+
+				<p class="disclaimer">
+					<strong style="color: red;">Attention</strong>
 					<br>
-					Ce site est en cours de développement, les tarif affichés sont suceptibles de changer.
+					Ce site est en cours de développement, les tarifs affichés sont suceptibles de changer. De même que son nom et son propriétaire. <small>(Ceci n'altère en rien la qualité du service en lui-même)</small>
 				</p>
 			</div>
 
@@ -47,14 +51,16 @@
 				
 				<input  type="radio" name="order-type-radio" value="objectdelivery">
 						
-				<label id="order-type-radio-label" class="radio-label" ><span class="radio-label">
+				<label id="order-type-radio-label" class="radio-label" >
+					<span class="radio-label">
 						<strong>
 							Livraison d'objets
 						</strong>
 
 						<br>
 
-						Comprend la récupération d'un objet dans un endroit spécifique et l'acheminement de celui-ci vers un autre endroit.</span>
+						Comprend la récupération d'un objet dans un endroit spécifique et l'acheminement de celui-ci vers un autre endroit.
+					</span>
 				</label>
 
 				<div class="hidden" id="objectdelivery-order-container">
@@ -83,35 +89,38 @@
 
 							<h3>Adresses</h3>
 
-							<p><em>Entrer les adresses de livraisons</em></p>
+							<p><em>Entrer les dates et adresses de livraisons</em></p>
 
 							<div id="addresses">
-								<div id="start-address" class="form-group form-group-sm">
-									<span for="start-address-input">Lieu de retrait</span>
-									<input type="text" id="start-address-input" class="form-control" name="start-address" placeholder="Adresse de départ" required>
-									<a id="select-start-on-map-link" class="select-on-map-link help-block" href=""  hidden>Selectionner sur la carte</a>
-								</div>
+								<h4>Informations de retrait</h4>
 
 								<div class="form-group form-inline justify-content-center">
 									<input class="form-control" type="date" name="start-date-input" required>
 									<input class="form-control" type="time" name="start-time-input" required>
 								</div>
 
+								<div id="start-address" class="form-group form-group-sm">
+									<input type="text" id="start-address-input" class="form-control" name="start-address" placeholder="Adresse de départ" required>
+									<a id="select-start-on-map-link" class="select-on-map-link help-block" href=""  hidden>Selectionner sur la carte</a>
+								</div>
+
 								<div class="form-group">
 									<textarea class="form-control" name="start-instruction-input" placeholder="Instructions..." rows="3"></textarea>
 								</div>
 
-								<div class="form-group form-group-sm">
-									<div id="end-address">
-										<span for="end-address-input">Lieu de dépot</span>
-										<input type="text" id="end-address-input" class="form-control" name="end-address" placeholder="Adresse d'arrivée" required>
-										<a class="select-on-map-link help-block" id="select-end-on-map-link" href="" hidden>Selectionner sur la carte</a>
-									</div>
-								</div>
+								<h4>Informations de dépot</h4>
 
 								<div class="form-group form-inline justify-content-center">
 									<input class="form-control" type="date" name="end-date-input" required>
 									<input class="form-control" type="time" name="end-time-input" required>
+								</div>
+
+								<div class="form-group form-group-sm">
+									<div id="end-address">
+
+										<input type="text" id="end-address-input" class="form-control" name="end-address" placeholder="Adresse d'arrivée" required>
+										<a class="select-on-map-link help-block" id="select-end-on-map-link" href="" hidden>Selectionner sur la carte</a>
+									</div>
 								</div>
 
 								<div class="form-group">
@@ -184,7 +193,12 @@
 
 							<h3>Urgence</h3>
 
-							<p><em>Renseigner le caractère urgent de la commande</em></p>
+							<p>
+								<em>
+									Renseigner le caractère urgent de la commande.
+									Après validation, votre commande subira un ordonnancement suivant le volume de demande. Les commandes urgentes auront une priorité plus grance lors de cet ordonnancement.
+								</em>
+							</p>
 
 							<label for="urgency-checkbox" class="checkbox-inline">
 								<input type="checkbox" name="urgency-checkbox" class="checkbox">
@@ -332,11 +346,24 @@
 							<hr>
 							<p>Payer maintenant ou plus tard</p>
 							<div id="paypal-button"></div>
+
+							<p class="disclaimer">
+								<strong style="color: red;">Attention</strong>
+								<br>
+								Une commande effectué doit être payée. <small>(Sous trente jours au maximum)</small>
+							</p>
 						</div>
 					</div>
 
+					<hr>
+
 					<div id="validate-container">
-						<hr>
+						<p id="validation-disclaimer" class="disclaimer">
+							<strong style="color: red;">Attention</strong>
+							<br>
+							Après validation, un Email comportant un récapitulatif de la commande vous sera envoyé. <strong>Et il y a de très forte chance pour que celui-ci attérisse dans vos spams.</strong>
+						</p>
+
 						<input id="back-stage-button" class="btn btn-default" type="button" value="Retour">
 						<input id="next-stage-button" class="btn btn-default" type="button" value="Suivant">
 						<!-- <input id="reset-button" type="reset" value="Remise à zéro"> -->
@@ -387,7 +414,5 @@
 
 	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 	<script type="text/javascript" src="js/paypal.js"></script>
-
-
 </body>
 </html>

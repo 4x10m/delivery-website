@@ -87,20 +87,24 @@ form {
 	text-align: center;
 }
 
-#disclaimer-helper {
-	padding: 0px 50px 0px 50px;
-	text-align: center;
-}
-
-#disclaimer {
+.disclaimer {
 	border-width: 1px;
 	border-style: solid;
 	border-color: black;
 	border-radius: 10px;
 	background-color: silver;
 	font-size: 0.8em;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding: 5px;
+}
+
+#title {
+	text-decoration: none;
+	color: black;
+}
+
+#disclaimer-helper {
+	padding: 0px 50px 0px 50px;
+	text-align: center;
 }
 
 #map {
