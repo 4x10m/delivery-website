@@ -1,31 +1,9 @@
-.gm-style-iw + div {
-	display: none;
-}
-
-.radio-label {
-	display: inline-block;
-	vertical-align: middle;
-}
-
 html {
 	background: black;
 	color: white;
-
 	padding: 0px;
     margin: 0px;
     height: 100%;
-}
-
-.form-group {
-	margin-bottom: 5px !important;
-}
-
-.select-on-map-link {
-	font-size: 10px;
-	margin: 0px !important;
-	padding: 0px !important;
-	text-align: right;
-	vertical-align: top;
 }
 
 body {
@@ -46,8 +24,67 @@ a {
 	margin: 15px;
 }
 
+input[name="choice4"] {
+	text-align: center;
+}
+
+button {
+	background: white;
+}
+
+td { 
+	width: 30%;
+}
+
+h1 {
+	text-align: center;
+}
+
+form {
+	background-color: gray;
+	padding: 20px 50px 20px 50px;
+	margin: 20px 50px 20px 50px;
+}
+
+.gm-style-iw + div {
+	display: none;
+}
+
+.radio-label {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.form-group {
+	margin-bottom: 5px !important;
+}
+
+.select-on-map-link {
+	font-size: 10px;
+	margin: 0px !important;
+	padding: 0px !important;
+	text-align: right;
+	vertical-align: top;
+}
+
 .hidden {
 	display: none;
+}
+
+.container {
+	position: relative;
+	text-align: center;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.button-centered {
+	text-align: center;
 }
 
 #map {
@@ -116,10 +153,6 @@ a {
 	width: 100%;
 }
 
-input[name="choice4"] {
-	text-align: center;
-}
-
 #banner {
 	background-image: url("../img/banner.jpg");
 	background-repeat: no-repeat;
@@ -138,39 +171,4 @@ input[name="choice4"] {
 	width: 80%;
 	margin: 0px auto 0px auto;
 	text-align: none;
-}
-
-.container {
-	position: relative;
-	text-align: center;
-}
-
-.centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-button {
-	background: white;
-}
-
-
-td { 
-	width: 30%;
-}
-
-.button-centered {
-	text-align: center;
-}
-
-h1 {
-	text-align: center;
-}
-
-form {
-	background-color: gray;
-	padding: 20px 50px 20px 50px;
-	margin: 20px 50px 20px 50px;
 }

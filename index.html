@@ -1,54 +1,125 @@
 <html>
 <head>
 	<meta charset="utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/common.css">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
-<body>
-	<div class="container">
-		<img src="img/banner.jpg">
-		<div class="centered">
-			<h1 >Blah blah blah, votre service de livraison sur ...</h1>
-		</div>
-		
+<body>	
 
-	</div>
-<p>
-	... vous propose de <br>
-
-	Vous avez un colis à aller récupérer, un objet à déplacer ou un plis à livrer, Tours2Roues s'occupe de tout en vous permettant de rechercher et planifier une commande avec un livreur. Remplissez le formulaire en précisant les lieu de prise en charge et de dépose pour qu'un livreurs puisse effectuer votre demande.
-
-	Trouvez un livreur à vélo pour vos livraisons locales.
-</p>
-
-<table>
-	<thead>
-		<th>Localité</th>
-		<th>Rapidité</th>
-		<th>Ecologie</th>
-	</thead>
-
-	<tbody>
-		<td>Notre service est orienté autour de la protection de l’économie locale en profitant d’un moyen dépendant de la capacité de physique de son pilote, les distances et les efforts nécessaire pour la livraison de vos colis doivent donc restées « humaines ».</td>
-		<td>Grâce à son agilité et à son petit format, le vélo permet d’être réactif et libre en proposant une vitesse de déplacement en milieu urbain très compétitive.</td>
-		<td>En utilisant notre servie, vous contribuer forcément au dévelloppement de la cause vélo puisque celui-ci va avoir l’occasion de remplacer un trajet en voiture.
-Le déplacement à vélo permet d’économiser sur les coups d’entretiens et de mise en route des puisque qu’il n’émet aucune particule et nécessite moins de matières premières que ses semblables. Il nécessite aussi moins d’aménagement.</td>
-	</tbody>
-</table>
-
-<div class="tarification">Tarification<br>
-Nos tarifs sont basés sur la distance parcourus par les livreurs avec un radio de 42 euros pour 35 kilomètres. Ajouter un euro de prise en charge, et entre 0.5 et 3€ pour les poids. Le charactère urgent de la commande est facturé 1€.
+<noscript>
+<div class="alert alert-success">
+Votre commande à bien été envoyé.
 </div>
+</noscript>
 
-<div class="button-centered"><button>En savoir plus</button></div>
-
-<div class="button-centered"><button>Passer Commande</button></div>
+	<div id="banner">
 
 
-<footer>
-	contact
-	facebook
-	twitter
-</footer>
+
+		<div class="main-container">
+
+			<div id="cardview">
+
+				<div id="header">
+					<div id="header-helper">
+						<img id="logo" src="img/logo.png">
+
+						<div id="navigation">
+							<a href="about.html">A propos</a>
+							<a href="signin.html">Connexion</a>
+						</div>
+					</div>
+				</div>
+				
+				<div id="main-container">
+					<h2>Evan GAROT--ADRIAN, votre service de livraison à vélo sur Tours</h2>
+
+					<p>
+						Vous avez un colis à récupérer, un objet à déplacer ou un plis à livrer, Evan GAROT--ADRIAN s'occupe de tout en vous permettant de planifier une livraison à vélo. Remplissez le formulaire en précisant les lieux de prise en charge et de dépose pour qu'un livreurs puisse effectuer votre demande.
+
+						Trouvez un livreur à vélo pour vos livraisons locales.
+					</p>
+
+					<!-- <br> -->
+
+					<a class="btn btn-light" type="button" href="order.html" role="button">Passer commande</a>
+
+					<br>
+					<hr>
+
+					<h3>Caractéristiques</h3>
+
+					<table>
+						<thead>
+							<th>Localité</th>
+							<th>Rapidité</th>
+							<th>Ecologie</th>
+						</thead>
+
+						<tbody>
+							<td>
+								Notre service contribue à la  protection de l’économie locale puisqu'il reste dépendant des capacités physiques de nos livreurs.
+							</td>
+							<td>
+								Grâce à son agilité et à son petit format, le vélo permet d’être réactif et libre en proposant une vitesse de déplacement en milieu urbain très compétitive.
+							</td>
+							<td>
+								En utilisant notre service, vous contribuer au développement de la cause vélo puisque celui-ci va avoir l’occasion de remplacer un trajet en voiture.
+							</td>
+						</tbody>
+					</table>
+					
+					<hr>
+
+					<h3>Tarification</h3>
+
+					<p>
+						Nos tarifs sont calculés en fonction des caractéristiques de votre livraison comprenant la distance, l'altimétrie, le poids et l'urgence.
+					</p>
+
+					<a class="btn btn-light" type="button" href="about.html" role="button">En savoir plus</a>
+				</div>
+
+	<form action="#" method="get">
+	<input  type="text" name="order-success">
+	</form>
+				<footer>
+					contact
+					facebook
+					twitter
+				</footer>
+			</div>
+
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		function $_GET(param) {
+			var vars = {};
+			window.location.href.replace( location.hash, '' ).replace( 
+				/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+				function( m, key, value ) { // callback
+					vars[key] = value !== undefined ? value : '';
+				}
+			);
+
+			if ( param ) {
+				return vars[param] ? vars[param] : null;	
+			}
+			return vars;
+		}
+
+		var orderSuccess = $_GET('order-success');
+
+		if (orderSuccess) {
+
+		}
+	</script>
 </body>
 
 </html>

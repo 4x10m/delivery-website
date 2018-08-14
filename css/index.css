@@ -1,7 +1,71 @@
-h1 {
-	width: 100%;
-	line-height: 100%;
-	position: absolute;
-	top: 25%;
-	left: 0;
+th {
+	text-align: center !important;
+}
+
+table {
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+
+td {
+	border-style: solid;
+	border-color: black;
+
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+
+	padding: 5px;
+}
+
+th {
+	border-style: solid;
+	border-color: black;
+
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+}
+
+.alert {
+	position: fixed !important;
+	top: -10%;
+	left: 15%;
+	right: 15%;
+	text-align: center;
+
+	animation-name: example;
+    animation-duration: 10s;
+}
+
+@keyframes example {
+  0% {
+    top: -10%;
+  }
+  /* You could think of as "step 2" */
+  25% {
+  	top: 15px;
+  }
+
+  50% {
+  	top: 15px;
+  }
+
+  70% {
+  	top: 15px;
+  }
+
+  100% {
+    top:  -10%;
+  }
+}
+
+#main-container {
+	background-color: gray;
+	padding: 20px 50px 20px 50px;
+	margin: 20px 50px 20px 50px;
+	text-align: center;
 }
