@@ -69,25 +69,25 @@ $subject .= "Nouvelle commande de ";
 $subject .= $clientName;
 
 $message = "Type: " . $type . "\n" 
-. "Addresse de retrait: " . $startaddress . "\n"
+. "Adresse de retrait: " . $startaddress . "\n"
 . "Date de retrait: " . $startDate . "\n"
 . "Heure de retrait: " . $startTime . "\n"
-. "Instruction de retrait: " . $startInstruction . "\n"
-. "Addresse de dépot: " . $endaddress . "\n"
-. "Date de dépot: " . $endDate . "\n"
-. "Heure de dépot: " . $endTime . "\n"
-. "Instruction de dépot: " . $endInstruction . "\n"
+. "Instructions de retrait: " . $startInstruction . "\n"
+. "Addresse de dépôt: " . $endaddress . "\n"
+. "Date de dépôt: " . $endDate . "\n"
+. "Heure de dépôt: " . $endTime . "\n"
+. "Instructions de dépôt: " . $endInstruction . "\n"
 . "Distance: " . $distance . "\n"
 . "Prix distance: " . $distancePrice . "\n"
-. "Gain: " . $verticalGain . "\n"
+. "Gain vertical: " . $verticalGain . "\n"
 . "Prix gain: " . $verticalGainPrice . "\n"
 . "Poids: " . $weight . "\n"
 . "Prix poids: " . $weightPrice . "\n"
 . "Urgence: " . $urgency . "\n"
 . "Don: " . $donation . "\n"
 . "Nom client: " . $clientName . "\n"
-. "Addresse client: " . $clientAddress . "\n"
-. "Complément addresse client: " . $clientAddressComplement . "\n"
+. "Adresse client: " . $clientAddress . "\n"
+. "Complément adresse client: " . $clientAddressComplement . "\n"
 . "Email client: " . $clientEmail . "\n"
 . "Numéro client: " . $clientNumber . "\n"
 . "Prix total: " . $totalPrice . "\n"
@@ -105,35 +105,35 @@ $clientName . ", vous avez récemment réaliser une demande de livraison via le 
 "		<td>" . $printableType . "</td>" .
 "	</tr>" .
 "	<tr>" .
-"		<td>Date de départ</td>" .
+"		<td>Date de retrait</td>" .
 "		<td>" . $startDate . "</td>" .
 "	</tr>" .
 "	<tr>" .
-"		<td>Heure de départ</td>" .
+"		<td>Heure de retrait</td>" .
 "		<td>" . $startTime . "</td>" .
 "	</tr>" .
 "	<tr>" .
-"		<td>Addresse de départ</td>" .
+"		<td>Addresse de retrait</td>" .
 "		<td>" . $startaddress . "</td>" .
 "	</tr>" .
 "	<tr>" .
-"		<td>Instructions de départ</td>" .
+"		<td>Instructions de retrait</td>" .
 "		<td>" . $startInstruction . "</td>" .
 "	</tr>" .
 "	<tr>" .
-"		<td>Date d'arrivée</td>" .
+"		<td>Date de dépôt</td>" .
 "		<td>" . $endDate . "</td>" .
 "	</tr>" .
 "	<tr>" .
-"		<td>Heure d'arrivée</td>" .
+"		<td>Heure de dépôt</td>" .
 "		<td>" . $endTime . "</td>" .
 "	</tr>" .
 "	<tr>" .
-"		<td>Addresse d'arrivée</td>" .
+"		<td>Addresse de dépôt</td>" .
 "		<td>" . $endaddress . "</td>" .
 "	</tr>" .
 "	<tr>" .
-"		<td>Instructions d'arrivée</td>" .
+"		<td>Instructions de dépôt</td>" .
 "		<td>" . $endInstruction . "</td>" .
 "	</tr>" .
 "	<tr>" .
@@ -177,7 +177,7 @@ $clientName . ", vous avez récemment réaliser une demande de livraison via le 
 "		<td>" . $clientAddress . "</td>" .
 "	</tr>" .
 "	<tr>" .
-"		<td>Complément d\"adresse</td>" .
+"		<td>Complément d'adresse</td>" .
 "		<td>" . $clientAddressComplement . "</td>" .
 "	</tr>" .
 "	<tr>" .

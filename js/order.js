@@ -56,7 +56,7 @@ class Order {
 		if (this.orderType == 0) {
 			return "Défaut"
 		} else if (this.orderType == 1) {
-			return "Livraison d'objets";
+			return "Livraison d'objet";
 		}
 	}
 

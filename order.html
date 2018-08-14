@@ -54,7 +54,7 @@
 				<label id="order-type-radio-label" class="radio-label" >
 					<span class="radio-label">
 						<strong>
-							Livraison d'objets
+							Livraison d'objet
 						</strong>
 
 						<br>
@@ -75,7 +75,7 @@
 						<!-- Order informations -->
 
 						<div data-panel="order-form-stage">
-							<h2>Renseignement de la commande</h2>
+							<h2>Renseignements de la commande</h2>
 
 							<hr>
 
@@ -100,15 +100,15 @@
 								</div>
 
 								<div id="start-address" class="form-group form-group-sm">
-									<input type="text" id="start-address-input" class="form-control" name="start-address" placeholder="Adresse de départ" required>
+									<input type="text" id="start-address-input" class="form-control" name="start-address" placeholder="Adresse de retrait" required>
 									<a id="select-start-on-map-link" class="select-on-map-link help-block" href=""  hidden>Selectionner sur la carte</a>
 								</div>
 
 								<div class="form-group">
-									<textarea class="form-control" name="start-instruction-input" placeholder="Instructions..." rows="3"></textarea>
+									<textarea class="form-control" name="start-instruction-input" placeholder="Instructions de retrait..." rows="3"></textarea>
 								</div>
 
-								<h4>Informations de dépot</h4>
+								<h4>Informations de dépôt</h4>
 
 								<div class="form-group form-inline justify-content-center">
 									<input class="form-control" type="date" name="end-date-input" required>
@@ -118,13 +118,13 @@
 								<div class="form-group form-group-sm">
 									<div id="end-address">
 
-										<input type="text" id="end-address-input" class="form-control" name="end-address" placeholder="Adresse d'arrivée" required>
+										<input type="text" id="end-address-input" class="form-control" name="end-address" placeholder="Adresse de dépôt" required>
 										<a class="select-on-map-link help-block" id="select-end-on-map-link" href="" hidden>Selectionner sur la carte</a>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<textarea class="form-control" name="end-instruction-input" placeholder="Instructions..." rows="3"></textarea>
+									<textarea class="form-control" name="end-instruction-input" placeholder="Instructions de dépôt..." rows="3"></textarea>
 								</div>
 							</div>
 
@@ -132,7 +132,7 @@
 
 							<div class="hidden" id="line-infowindow" style="color: black;">
 								Distance: <span id="line-infowindow-distance"></span>km<br>
-								Gain: <span id="line-infowindow-elevation"></span>m<br>
+								Gain vertical: <span id="line-infowindow-elevation"></span>m<br>
 								Tarif: <strong><span id="line-infowindow-price"></span>€</strong>
 							</div>
 
@@ -142,7 +142,7 @@
 
 							<h3>Poids</h3>
 
-							<p><em>Renseigner le poids du ou des objets à transporter</em></p>
+							<p><em>Renseigner le poids de l'objet à transporter</em></p>
 
 							<div class="row">
 
@@ -196,7 +196,7 @@
 							<p>
 								<em>
 									Renseigner le caractère urgent de la commande.
-									Après validation, votre commande subira un ordonnancement suivant le volume de demande. Les commandes urgentes auront une priorité plus grance lors de cet ordonnancement.
+									Après validation, votre commande subira un ordonnancement suivant le volume de la demande. Les commandes urgentes auront une priorité plus importante lors de cet ordonnancement.
 								</em>
 							</p>
 
@@ -237,7 +237,7 @@
 
 							<input type="text" class="form-control" name="client-address-complement-input" placeholder="Complément d'adresse">
 
-							<input type="email" class="form-control" name="client-mail-input" placeholder="Addresse email" required>
+							<input type="email" class="form-control" name="client-mail-input" placeholder="Adresse email" required>
 
 							<hr>
 
@@ -255,7 +255,7 @@
 									<td id="order-type-field"></td>
 								</tr>
 								<tr>
-									<td>Addresse de départ</td>
+									<td>Adresse de retrait</td>
 									<td id="start-address-field"></td>
 								</tr>
 								<tr>
@@ -263,23 +263,23 @@
 									<td id="start-date-field"></td>
 								</tr>
 								<tr>
-									<td>Heure de départ</td>
+									<td>Heure de retrait</td>
 									<td id="start-time-field"></td>
 								</tr>
 								<tr>
-									<td>Instructions de départ</td>
+									<td>Instructions de retrait</td>
 									<td id="start-instruction-field"></td>
 								</tr>
 								<tr>
-									<td>Addresse d'arrivée</td>
+									<td>Adresse de dépôt</td>
 									<td id="end-address-field"></td>
 								</tr>
 								<tr>
-									<td>Date d'arrivée</td>
+									<td>Date de dépôt</td>
 									<td id="end-date-field"></td>
 								</tr>
 								<tr>
-									<td>Heure d'arrivée</td>
+									<td>Heure de dépôt</td>
 									<td id="end-time-field"></td>
 								</tr>
 								<tr>
@@ -350,7 +350,7 @@
 							<p class="disclaimer">
 								<strong style="color: red;">Attention</strong>
 								<br>
-								Une commande effectué doit être payée. <small>(Sous trente jours au maximum)</small>
+								Une commande effectuée doit être payée. <small>(Sous trente jours au maximum)</small>
 							</p>
 						</div>
 					</div>
@@ -361,7 +361,7 @@
 						<p id="validation-disclaimer" class="disclaimer">
 							<strong style="color: red;">Attention</strong>
 							<br>
-							Après validation, un Email comportant un récapitulatif de la commande vous sera envoyé. <strong>Et il y a de très forte chance pour que celui-ci attérisse dans vos spams.</strong>
+							Après validation, un email comportant un récapitulatif de la commande vous sera envoyé. <strong>Et il y a des chances pour que celui-ci attérisse dans vos spams.</strong>
 						</p>
 
 						<input id="back-stage-button" class="btn btn-default" type="button" value="Retour">
