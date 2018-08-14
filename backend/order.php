@@ -112,6 +112,6 @@ if(!$mail->send()) {
    exit;
 }
 
-header('Location: index.html');
+header('Location: index.html?order-success=true');
 exit;
 ?>

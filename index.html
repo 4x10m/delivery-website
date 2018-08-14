@@ -8,13 +8,16 @@
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
-<body>	
+<body>
+	<div id="success-message" class="alert alert-success">
+		Votre commande à bien été envoyé.
+	</div>
 
-<noscript>
-<div class="alert alert-success">
-Votre commande à bien été envoyé.
-</div>
-</noscript>
+	<noscript>
+		<div class="alert alert-success">
+			Votre commande à bien été envoyé.
+		</div>
+	</noscript>
 
 	<div id="banner">
 
@@ -29,8 +32,8 @@ Votre commande à bien été envoyé.
 						<img id="logo" src="img/logo.png">
 
 						<div id="navigation">
-							<a href="about.html">A propos</a>
-							<a href="signin.html">Connexion</a>
+							<!-- <a href="about.html">A propos</a> -->
+	<!-- 						<a href="signin.html">Connexion</a> -->
 						</div>
 					</div>
 				</div>
@@ -68,7 +71,11 @@ Votre commande à bien été envoyé.
 								Grâce à son agilité et à son petit format, le vélo permet d’être réactif et libre en proposant une vitesse de déplacement en milieu urbain très compétitive.
 							</td>
 							<td>
-								En utilisant notre service, vous contribuer au développement de la cause vélo puisque celui-ci va avoir l’occasion de remplacer un trajet en voiture.
+								 
+
+								Notre service d'inscrit dans une logique de développement durable puisqu'il utilise un moyen de transport qui ne reposant pas sur la consommation d'énergies fossiles.
+
+								En utilisant notre service, vous contribuez au développement de la cause vélo puisque celui-ci va avoir l’occasion de remplacer un trajet en voiture.
 							</td>
 						</tbody>
 					</table>
@@ -84,9 +91,6 @@ Votre commande à bien été envoyé.
 					<a class="btn btn-light" type="button" href="about.html" role="button">En savoir plus</a>
 				</div>
 
-	<form action="#" method="get">
-	<input  type="text" name="order-success">
-	</form>
 				<footer>
 					contact
 					facebook
@@ -117,6 +121,8 @@ Votre commande à bien été envoyé.
 		var orderSuccess = $_GET('order-success');
 
 		if (orderSuccess) {
+			var successMessage = document.getElementById("success-message");
+			successMessage.classList.add("alert-animated");
 
 		}
 	</script>

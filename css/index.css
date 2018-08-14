@@ -36,7 +36,9 @@ th {
 	left: 15%;
 	right: 15%;
 	text-align: center;
+}
 
+.alert-animated {
 	animation-name: example;
     animation-duration: 10s;
 }

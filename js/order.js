@@ -201,7 +201,7 @@ class Order {
 	refreshDistancePrice() {
 		var valmin = 3.5;
 		var valeur = 2.33;
-		var factor = 2;
+		var factor = 1;
 		var price = Math.pow(this.distance, factor) * (valmin / Math.pow(valeur, factor));
 
 		this.distancePrice = Math.round(price * 100) / 100;
